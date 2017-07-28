@@ -3,7 +3,6 @@ namespace common\core;
 
 use Yii;
 use common\helpers\Html;
-
 class ActiveField extends \yii\widgets\ActiveField
 {
 
