@@ -52,7 +52,5 @@ $(function() {
 <?php $this->endBlock(); ?>
 <!-- 将数据块 注入到视图中的某个位置 -->
 
-<?php $this->registerJs('
-console.log(111);
-'); ?>
-<?php /*$this->registerJs($this->blocks['test'], \yii\web\View::POS_END);*/ ?>
+
+<?php  $this->registerJs($this->blocks['test'], \yii\web\View::POS_END); ?>

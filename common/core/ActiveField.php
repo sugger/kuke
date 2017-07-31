@@ -136,7 +136,6 @@ class ActiveField extends \yii\widgets\ActiveField
         $config['view'] = $this->form->getView();
         $options['class'] = isset($options['class'])?$options['class']:'c-md-4';
         $this->parts['{input}'] = '<div class="'.$options['class'].'">'.$class::widget($config).'</div>';
-
         return $this;
     }
 

@@ -84,4 +84,4 @@ $(function() {
 
 <?php $this->endBlock() ; ?>
 <!-- 将数据块 注入到视图中的某个位置 -->
-<?php $this->registerJs($this->blocks['image'], \yii\web\View::POS_END); ?>
+<?php  $this->registerJs($this->blocks['image'], \yii\web\View::POS_END); ?>

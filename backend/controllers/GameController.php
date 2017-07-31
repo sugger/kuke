@@ -20,7 +20,8 @@ class GameController extends BaseController
         $this->setForward();
 
         $searchModel = new GameSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $map=Yii::$app->request->queryParams;
+        $dataProvider = $searchModel->search($map);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -30,17 +31,39 @@ class GameController extends BaseController
         $model=$this->findModel(0);
         if(Yii::$app->request->isPost){
             /**添加数据**/
+            $data=Yii::$app->request->post('Game');
+            if ($this->saveRow($model,$data)){
+                $this->success('操作成功', $this->getForward());
+            }else{
+                $this->error('操作错误');
+            }
         }
-        error_reporting(E_ALL);
-        ini_set('display_errors', 1);
         /* 获取模型默认数据 */
         $model->loadDefaultValues();
 //var_dump(\backend\models\ArticleCat::find()->asArray()->all());die;
-        $this->render('edit',[
+        echo $this->render('edit',[
             'model' => $model,
         ]);
     }
-
+    public function actionEdit(){
+        $id = Yii::$app->request->get('id',0);
+        $model=$this->findModel($id);
+        if(Yii::$app->request->isPost){
+            /**添加数据**/
+            $data=Yii::$app->request->post('Game');
+            if ($this->saveRow($model,$data)){
+                $this->success('操作成功', $this->getForward());
+            }else{
+                $this->error('操作错误');
+            }
+        }
+        /* 获取模型默认数据 */
+        $model->loadDefaultValues();
+//var_dump(\backend\models\ArticleCat::find()->asArray()->all());die;
+        echo $this->render('edit',[
+            'model' => $model,
+        ]);
+    }
     /**
      * Finds the Article model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

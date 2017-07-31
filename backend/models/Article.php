@@ -29,7 +29,7 @@ class Article extends \common\models\Article
             ],
         ];
     }
-    
-    
-    
+
+
+
 }

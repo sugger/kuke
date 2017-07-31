@@ -46,4 +46,53 @@ class Game extends \common\core\BaseActiveRecord
     {
         return "{{%game}}";
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['name', 'game_api','payto'], 'required'],
+            [[ 'isopen','isdisplay','sort', 'gametype', 'gamestyle', 'payto', 'sort', 'ishot', 'isopen', 'isdisplay','game_hit','game_players'], 'integer'],
+            [['game_starttime','name', 'content','game_web','game_bbs','currency','qq','desc1','game_conf','remarks','lander'], 'string'],
+//            [['game_starttime'],'datetime'],
+            [['name'], 'string', 'max' => 40],
+            [['desc1'], 'string', 'max' => 140],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'game_starttime' => 'Game Start Time',
+            'name' => 'Name',
+            'short' => 'short',
+            'gametype' => 'gametype',
+            'gamestyle' => 'gamestyle',
+            'pic' => 'pic',
+            'payto' => 'payto',
+            'content' => 'content',
+            'ishot' => 'ishot',
+            'game_web' => 'game_web',
+            'game_bbs' => 'game_bbs',
+            'currency' => 'currency',
+            'addtime' => 'add time',
+            'game_hit' => 'game_hit',
+            'game_players' => 'game_players',
+            'qq' => 'qq',
+            'isdisplay' => 'isdisplay',
+            'isopen' => 'isopen',
+            'desc1' => 'desc1',
+            'game_api' => 'game_api',
+            'game_conf' => 'game_conf',
+            'remarks' => 'remarks',
+            'lander' => 'lander',
+            'is_del' => 'is_del',
+        ];
+    }
 }

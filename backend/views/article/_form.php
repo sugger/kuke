@@ -15,7 +15,7 @@ use yii\helpers\Url;
         'class'=>"form-aaa ",
         'enctype'=>"multipart/form-data",
     ]
-]); ?>
+]);var_dump(ArrayHelper::listDataLevel(\backend\models\ArticleCat::find()->asArray()->all(), 'id', 'title','id','pid')); die;?>
 <?=$form->field($model, 'category_id')->selectList(
     ArrayHelper::listDataLevel(\backend\models\ArticleCat::find()->asArray()->all(), 'id', 'title','id','pid'),
     ['class'=>'form-control c-md-2'])->label('栏目')->hint('英文标识'); ?>
