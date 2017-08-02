@@ -14,7 +14,7 @@ use yii\helpers\Url;
     'options'=>[
         'class'=>"form-aaa ",
         'enctype'=>"multipart/form-data",
-    ]
+    ],
 ]);
 ?>
 <?=$form->field($model, 'gametype')->selectList(
@@ -64,7 +64,7 @@ use yii\helpers\Url;
 <?=$form->field($model, 'isopen')->radioList(['1'=>'开启','0'=>'关闭'])->label('开启状态') ?>
 <?=$form->field($model, 'lander')->textInput(['class'=>'form-control c-md-5','placeholder' => '微端下载地址'])->label('微端下载地址{需要填写协议；http(s)://}') ?>
 <div class="form-actions">
-    <?= Html::submitButton('<i class="icon-ok"></i> 确定', ['class' => 'btn blue ajax-post','target-form'=>'form-aaa']) ?>
+    <?= Html::submitButton('<i class="icon-ok"></i> 确定', ['class' => 'btn blue ','target-form'=>'form-aaa']) ?>
     <?= Html::button('取消', ['class' => 'btn']) ?>
 </div>
 

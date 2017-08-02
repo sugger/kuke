@@ -61,10 +61,8 @@ class GameSearch extends Game
                 'pageSize' => 10,
             ],
         ]);
-
         $this->load($params);
-
-        if (!$this->validate()) {
+        if (  !$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
@@ -72,16 +70,13 @@ class GameSearch extends Game
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'name' => $this->name,
             'game_hit' => $this->game_hit,
             'game_players' => $this->game_players,
             'isdisplay' => $this->isdisplay,
+            'is_del' => 0,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'game_hit', $this->game_hit])
-            ->andFilterWhere(['like', 'game_players', $this->game_players])
-            ->andFilterWhere(['like', 'isdisplay', $this->isdisplay]);
+        $query->andFilterWhere(['like', 'name', $this->name]);
 
         /* 条件搜索 */
 

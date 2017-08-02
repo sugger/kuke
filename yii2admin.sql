@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-07-28 17:58:55
+-- Generation Time: 2017-08-02 18:05:27
 -- 服务器版本： 10.1.8-MariaDB
 -- PHP Version: 5.6.15
 
@@ -816,19 +816,19 @@ INSERT INTO `yii2_config` (`id`, `name`, `title`, `group`, `type`, `value`, `ext
 
 CREATE TABLE IF NOT EXISTS `yii2_game` (
   `id` int(8) NOT NULL COMMENT '游戏id',
-  `game_starttime` int(15) NOT NULL COMMENT '游戏开服时间',
-  `sort` int(8) NOT NULL COMMENT '排序',
   `name` varchar(55) NOT NULL COMMENT '游戏名称',
-  `short` char(3) NOT NULL COMMENT '简写',
+  `game_starttime` datetime NOT NULL COMMENT '游戏开服时间',
+  `short` char(10) NOT NULL COMMENT '简写',
+  `sort` int(8) NOT NULL DEFAULT '0' COMMENT '排序',
   `gametype` varchar(20) NOT NULL COMMENT '游戏类别',
   `gamestyle` smallint(5) NOT NULL COMMENT '类型ʽ',
-  `pic` tinytext NOT NULL,
+  `pic` smallint(6) NOT NULL,
   `payto` int(5) NOT NULL DEFAULT '10' COMMENT '比例',
   `content` text NOT NULL,
   `ishot` int(3) NOT NULL DEFAULT '0' COMMENT '是否推荐',
   `game_web` varchar(255) NOT NULL COMMENT '游戏官网地址',
   `game_bbs` varchar(255) NOT NULL COMMENT '游戏论坛地址',
-  `currency` char(20) NOT NULL COMMENT '游戏币单位',
+  `currency` char(20) NOT NULL DEFAULT '元宝' COMMENT '游戏币单位',
   `addtime` int(15) NOT NULL COMMENT '添加时间',
   `game_hit` int(8) NOT NULL DEFAULT '1' COMMENT '点击次数',
   `game_players` int(11) NOT NULL DEFAULT '0' COMMENT '玩家数量',
@@ -841,14 +841,18 @@ CREATE TABLE IF NOT EXISTS `yii2_game` (
   `remarks` text NOT NULL COMMENT '停服备注',
   `lander` varchar(254) NOT NULL DEFAULT '' COMMENT '是否有微端',
   `is_del` tinyint(2) NOT NULL COMMENT '删除状态'
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `yii2_game`
 --
 
-INSERT INTO `yii2_game` (`id`, `game_starttime`, `sort`, `name`, `short`, `gametype`, `gamestyle`, `pic`, `payto`, `content`, `ishot`, `game_web`, `game_bbs`, `currency`, `addtime`, `game_hit`, `game_players`, `qq`, `isdisplay`, `isopen`, `desc1`, `game_api`, `game_conf`, `remarks`, `lander`, `is_del`) VALUES
-(1, 0, 0, '测试游戏', '1', '1', 1, '', 0, '', 0, '', '', '', 0, 1, 0, '', 0, 0, '', NULL, NULL, '', '', 0);
+INSERT INTO `yii2_game` (`id`, `name`, `game_starttime`, `short`, `sort`, `gametype`, `gamestyle`, `pic`, `payto`, `content`, `ishot`, `game_web`, `game_bbs`, `currency`, `addtime`, `game_hit`, `game_players`, `qq`, `isdisplay`, `isopen`, `desc1`, `game_api`, `game_conf`, `remarks`, `lander`, `is_del`) VALUES
+(1, '测试游戏', '2017-12-22 14:00:00', '1', 0, '1', 1, 0, 0, '', 1, '', '', '', 1501572776, 1, 0, '', 1, 1, '', 'jiekou', '', '', '', 0),
+(3, '测试1', '1900-12-09 07:35:00', '', 0, '2', 5, 0, 10, 'asdsa', 1, '', 'http://bbs.kukewan.com', '元宝', 1501495081, 1000, 7, '295729766', 0, 0, 'asdadsaasdsa', 'asdsadsa', '', '', '', 0),
+(4, '测试', '0000-00-00 00:00:00', '', 0, '2', 5, 0, 10, 'asdsa', 1, 'asdsad', '', '元宝', 1501494363, 1, 0, '', 0, 0, 'asdadsaasdsa', 'asdsadsa', NULL, '', '', 1),
+(5, '测试', '0000-00-00 00:00:00', '', 0, '2', 5, 0, 10, 'asdsa', 1, 'asdsad', 'adssad', '元宝1', 1501494593, 1, 0, 'asdsad', 0, 0, 'asdadsaasdsa', 'asdsadsa', 'dadsadsa', 'das', '', 0),
+(6, '测试', '0000-00-00 00:00:00', '', 0, '2', 5, 0, 10, 'asdsa', 1, 'asdsad', 'adssad', '元宝1', 1501494648, 1, 0, 'asdsad', 0, 0, 'asdadsaasdsa', 'asdsadsa', 'dadsadsa', 'das', '', 1);
 
 -- --------------------------------------------------------
 
@@ -1282,7 +1286,7 @@ CREATE TABLE IF NOT EXISTS `yii2_picture` (
   `md5` char(32) NOT NULL DEFAULT '' COMMENT '文件md5',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '状态'
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `yii2_picture`
@@ -1300,7 +1304,13 @@ INSERT INTO `yii2_picture` (`id`, `path`, `md5`, `create_time`, `status`) VALUES
 (11, '201611/1478854002500.jpg', '04e145672b976fb47164dd96e0090fd1', 1478854002, 1),
 (12, '201611/1478854666137.jpg', '1f611a254f541830ab3a3490e32368c2', 1478854666, 1),
 (13, '201612/1480907348789.png', '6d83a00e11eb16e95fa9200fd7ddc2e2', 1480907348, 1),
-(14, '201707/1501235705615.jpg', '121a79365e6ea29f81c5e91ca3a97ab1', 1501235705, 1);
+(14, '201707/1501235705615.jpg', '121a79365e6ea29f81c5e91ca3a97ab1', 1501235705, 1),
+(15, '201707/1501465801969.jpg', '789de0f89cbda2102c9ba12ee4a73dc2', 1501465801, 1),
+(16, '201707/1501466513789.jpg', '6a901a3cf0f4f9c36c0d8e9d46e35cc3', 1501466513, 1),
+(17, '201707/1501468881648.jpg', '8a08a324cefb1d8e4f583c85b33027a3', 1501468881, 1),
+(18, '201707/1501468900935.jpg', 'e2282e974157c1265ec4c25dfa016d7e', 1501468900, 1),
+(19, '201707/1501469519909.jpg', 'c7c467dbec7a0fb8f5fc997dca3dc6a5', 1501469519, 1),
+(20, '201707/1501487303981.jpg', '40307aff916f4cc8990182874e16caee', 1501487303, 1);
 
 -- --------------------------------------------------------
 
@@ -4851,6 +4861,40 @@ INSERT INTO `yii2_region` (`code`, `parent_code`, `name`, `fullname`, `level`) V
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `yii2_server`
+--
+
+CREATE TABLE IF NOT EXISTS `yii2_server` (
+  `id` int(11) NOT NULL,
+  `gid` smallint(6) NOT NULL,
+  `servername` varchar(50) COLLATE utf8mb4_bin NOT NULL COMMENT '名字',
+  `player_num` int(7) NOT NULL COMMENT '玩家数量',
+  `start_time` int(13) NOT NULL,
+  `add_time` int(13) NOT NULL,
+  `up_time` int(13) NOT NULL,
+  `stop_notice` varchar(255) COLLATE utf8mb4_bin NOT NULL,
+  `is_display` tinyint(2) NOT NULL COMMENT '是否显示',
+  `status` tinyint(2) NOT NULL COMMENT '是否推荐',
+  `content` varchar(255) COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '简介',
+  `server_img` int(11) NOT NULL DEFAULT '0' COMMENT '开服表图标',
+  `isstop` tinyint(2) NOT NULL DEFAULT '0' COMMENT '0-不停 1-停服',
+  `sid` varchar(10) COLLATE utf8mb4_bin NOT NULL COMMENT '本站区服ID',
+  `cp_gameid` varchar(10) COLLATE utf8mb4_bin NOT NULL COMMENT '联运游戏id',
+  `cp_sid` varchar(10) COLLATE utf8mb4_bin NOT NULL COMMENT '联运区服ID',
+  `is_del` tinyint(2) DEFAULT '0' COMMENT '1-删除'
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='区服表';
+
+--
+-- 转存表中的数据 `yii2_server`
+--
+
+INSERT INTO `yii2_server` (`id`, `gid`, `servername`, `player_num`, `start_time`, `add_time`, `up_time`, `stop_notice`, `is_display`, `status`, `content`, `server_img`, `isstop`, `sid`, `cp_gameid`, `cp_sid`, `is_del`) VALUES
+(1, 1, '双线一区', 200, 1501651015, 1501651015, 1501651015, '', 1, 1, '', 0, 0, '1', '1', '1', 0),
+(2, 2, '双线2区', 200, 1501651015, 1501651015, 1501651015, '', 1, 1, '', 0, 0, '2', '1', '2', 0);
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `yii2_tag`
 --
 
@@ -5180,6 +5224,14 @@ ALTER TABLE `yii2_region`
   ADD KEY `area_type` (`level`);
 
 --
+-- Indexes for table `yii2_server`
+--
+ALTER TABLE `yii2_server`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `gid` (`gid`,`sid`),
+  ADD KEY `is_del` (`is_del`);
+
+--
 -- Indexes for table `yii2_tag`
 --
 ALTER TABLE `yii2_tag`
@@ -5261,7 +5313,7 @@ ALTER TABLE `yii2_config`
 -- AUTO_INCREMENT for table `yii2_game`
 --
 ALTER TABLE `yii2_game`
-  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT COMMENT '游戏id',AUTO_INCREMENT=2;
+  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT COMMENT '游戏id',AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `yii2_game_type`
 --
@@ -5326,7 +5378,12 @@ ALTER TABLE `yii2_page`
 -- AUTO_INCREMENT for table `yii2_picture`
 --
 ALTER TABLE `yii2_picture`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id自增',AUTO_INCREMENT=15;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id自增',AUTO_INCREMENT=21;
+--
+-- AUTO_INCREMENT for table `yii2_server`
+--
+ALTER TABLE `yii2_server`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `yii2_tag`
 --

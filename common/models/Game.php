@@ -14,7 +14,7 @@ namespace common\models;
 |字段|类型|空|默认
 |------
 |id|int(8)|否|
-|game_starttime|int(15)|否|
+|game_starttime|datetime()|否|
 |sort|int(8)|否|
 |name|varchar(55)|否|
 |short|char(3)|否|
@@ -54,9 +54,8 @@ class Game extends \common\core\BaseActiveRecord
     {
         return [
             [['name', 'game_api','payto'], 'required'],
-            [[ 'isopen','isdisplay','sort', 'gametype', 'gamestyle', 'payto', 'sort', 'ishot', 'isopen', 'isdisplay','game_hit','game_players'], 'integer'],
+            [[ 'isopen','isdisplay','sort', 'gametype', 'gamestyle', 'payto', 'sort', 'ishot','game_hit','game_players'], 'integer'],
             [['game_starttime','name', 'content','game_web','game_bbs','currency','qq','desc1','game_conf','remarks','lander'], 'string'],
-//            [['game_starttime'],'datetime'],
             [['name'], 'string', 'max' => 40],
             [['desc1'], 'string', 'max' => 140],
         ];
@@ -69,30 +68,31 @@ class Game extends \common\core\BaseActiveRecord
     {
         return [
             'id' => 'ID',
-            'game_starttime' => 'Game Start Time',
-            'name' => 'Name',
-            'short' => 'short',
-            'gametype' => 'gametype',
-            'gamestyle' => 'gamestyle',
-            'pic' => 'pic',
-            'payto' => 'payto',
-            'content' => 'content',
-            'ishot' => 'ishot',
-            'game_web' => 'game_web',
-            'game_bbs' => 'game_bbs',
-            'currency' => 'currency',
-            'addtime' => 'add time',
-            'game_hit' => 'game_hit',
-            'game_players' => 'game_players',
-            'qq' => 'qq',
-            'isdisplay' => 'isdisplay',
-            'isopen' => 'isopen',
-            'desc1' => 'desc1',
-            'game_api' => 'game_api',
-            'game_conf' => 'game_conf',
-            'remarks' => 'remarks',
-            'lander' => 'lander',
-            'is_del' => 'is_del',
+            'game_starttime' => '开始时间',
+            'name' => '游戏名称',
+            'short' => '简写',
+            'sort'=>'排序值',
+            'gametype' => '平台类型',
+            'gamestyle' => '战斗类型',
+            'pic' => '图片',
+            'payto' => '充值比例',
+            'content' => '游戏简介',
+            'ishot' => '推荐状态',
+            'game_web' => '游戏官网',
+            'game_bbs' => '游戏论坛',
+            'currency' => '游戏币单位',
+            'addtime' => '添加时间',
+            'game_hit' => '点击量',
+            'game_players' => '玩家数量',
+            'qq' => '客服QQ',
+            'isdisplay' => '显示状态',
+            'isopen' => '开启状态',
+            'desc1' => '描述',
+            'game_api' => '接口文件名',
+            'game_conf' => '接口配置参数',
+            'remarks' => '停服备注',
+            'lander' => '微端地址',
+            'is_del' => '删除',
         ];
     }
 }

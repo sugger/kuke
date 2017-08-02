@@ -23,7 +23,8 @@
         "kucha/ueditor": "*",
         "eonasdan/bootstrap-datetimepicker": "^4.17",
         "kartik-v/yii2-widget-datepicker": "^1.4",
-        "kartik-v/yii2-widget-datetimepicker": "^1.4"
+        "kartik-v/yii2-widget-datetimepicker": "^1.4",
+        "kartik-v/yii2-field-range": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

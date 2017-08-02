@@ -115,9 +115,9 @@ class BaseController extends Controller
         if (empty($data)) {
             return false;
         }
-        if ($model->load($data, '') && $model->validate()) {
+        if ($model->load($data) && $model->validate()) {
             /* 添加到数据库中,save()会自动验证rule */
-            if ($model->save()) {
+            if ($model->save(false)) {
                 return $model;
             }else{
                 return false;
@@ -136,7 +136,8 @@ class BaseController extends Controller
      * ---------------------------------------
      */
     public function delRow($model, $pk='id' ){
-        $ids = Yii::$app->request->param($pk, 0);
+        $ids = Yii::$app->request->isPost?Yii::$app->request->post($pk,0):Yii::$app->request->get($pk,0);
+        $ids=$ids[$pk];
         $ids = implode(',', array_unique((array)$ids));
 
         if ( empty($ids) ) {
@@ -145,6 +146,30 @@ class BaseController extends Controller
 
         $_where = $pk.' in('.$ids.')';
         if($model::deleteAll($_where)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * ---------------------------------------
+     * 由表主键删除数据表中的多条记录(假删除)
+     * @param \yii\db\ActiveRecord $model 模型名称,供M函数使用的参数
+     * @param string  $pk  修改的数据
+     * @return boolean
+     * ---------------------------------------
+     */
+    public function hideRow($model, $pk='id' ,$key='is_del'){
+        $ids = Yii::$app->request->isPost?Yii::$app->request->post($pk,0):Yii::$app->request->get($pk,0);
+        $ids = implode(',', array_unique((array)$ids));
+
+        if ( empty($ids) ) {
+            return false;
+        }
+
+        $_where = $pk.' in('.$ids.')';
+        if($model::updateAll([$key=>1],$_where)){
             return true;
         } else {
             return false;

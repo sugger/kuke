@@ -118,6 +118,7 @@ $columns = [
         </div>
         <div class="table-container">
             <form class="ids">
+                <input type="hidden" name="<?= Yii::$app->getRequest()->csrfParam ?>" value="<?= Yii::$app->getRequest()->csrfToken ?>">
             <?= GridView::widget([
                 'dataProvider' => $dataProvider, // 列表数据
                 //'filterModel' => $searchModel, // 搜索模型

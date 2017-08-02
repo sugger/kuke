@@ -18,16 +18,21 @@ class GameController extends BaseController
 
         /* 添加当前位置到cookie供后续跳转调用 */
         $this->setForward();
-
         $searchModel = new GameSearch();
         $map=Yii::$app->request->queryParams;
         $dataProvider = $searchModel->search($map);
+        /* 导出excel */
+        if (isset($params['action']) && $params['action'] == 'export') {
+            $this->export($dataProvider->query->all());
+            return false;
+        }
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
     public function actionAdd(){
+
         $model=$this->findModel(0);
         if(Yii::$app->request->isPost){
             /**添加数据**/
@@ -38,10 +43,12 @@ class GameController extends BaseController
                 $this->error('操作错误');
             }
         }
+
+//        ini_set();
         /* 获取模型默认数据 */
         $model->loadDefaultValues();
-//var_dump(\backend\models\ArticleCat::find()->asArray()->all());die;
-        echo $this->render('edit',[
+
+        return $this->render('edit',[
             'model' => $model,
         ]);
     }
@@ -59,10 +66,24 @@ class GameController extends BaseController
         }
         /* 获取模型默认数据 */
         $model->loadDefaultValues();
-//var_dump(\backend\models\ArticleCat::find()->asArray()->all());die;
-        echo $this->render('edit',[
+        return $this->render('edit',[
             'model' => $model,
         ]);
+    }
+
+
+    /**
+     * ---------------------------------------
+     * 删除或批量删除
+     * ---------------------------------------
+     */
+    public function actionDelete(){
+        $model = $this->findModel(0);
+        if($this->hideRow($model, 'id')){
+            $this->success('删除成功', $this->getForward());
+        } else {
+            $this->error('删除失败！');
+        }
     }
     /**
      * Finds the Article model based on its primary key value.

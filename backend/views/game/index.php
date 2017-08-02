@@ -27,16 +27,19 @@ $columns = [
     [
         'header' => '游戏ID',
         'attribute' => 'id',
-        'options' => ['width' => '50px;']
+        'options' => ['width' => '50px;'],
+        'filter'=> Html::input('text','GameSearch[id]',$searchModel->id, ['class'=>'form-control'])
     ],
     [
         'header' => '名称',
         'options' => ['width' => '150px;'],
-        'attribute' => 'name'
+        'attribute' => 'name',
+        'filter'=> Html::input('text','GameSearch[name]',$searchModel->name, ['class'=>'form-control'])
     ],
     [
         'header' => '排序',
-        'attribute' => 'sort'
+        'attribute' => 'sort',
+        'options' => ['width' => '100px;'],
     ],
 //    [
 //        'header' => '上级分类',
@@ -60,14 +63,16 @@ $columns = [
         'options' => ['width' => '50px;'],
         'content' => function($model){
             return $model->isdisplay?'显示':'隐藏';
-        }
+        },
+        'filter'=> Html::activeDropDownList($searchModel,'isdisplay',[0 => '隐藏',1 => '显示'], ['prompt'=>'全部','class'=>'form-control'])
     ],
     [
         'label' => '开启状态',
         'options' => ['width' => '50px;'],
         'content' => function($model){
             return $model->isopen?'开启':'关闭';
-        }
+        },
+        'filter'=> Html::activeDropDownList($searchModel,'isopen',[0 => '隐藏',1 => '显示'], ['prompt'=>'全部','class'=>'form-control'])
     ],
     [
         'class' => 'yii\grid\ActionColumn',
@@ -124,9 +129,10 @@ $columns = [
         </div>
         <div class="table-container">
             <form class="ids">
+
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider, // 列表数据
-                    //'filterModel' => $searchModel, // 搜索模型
+                    'filterModel' => $searchModel, // 搜索模型
                     'options' => ['class' => 'grid-view table-scrollable'],
                     /* 表格配置 */
                     'tableOptions' => ['class' => 'table table-striped table-bordered table-hover table-checkable order-column dataTable no-footer'],
@@ -144,7 +150,8 @@ $columns = [
                     ],
                     /* 定义列表格式 */
                     'columns' => $columns,
-                ]); ?>
+                ]);
+                ?>
             </form>
         </div>
         <?php \yii\widgets\Pjax::end(); ?>

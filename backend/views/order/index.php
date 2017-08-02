@@ -75,8 +75,8 @@ $columns = [
         'attribute' => 'create_time',
         'options' => ['width' => '150px;'],
         'format' =>  ['date', 'php:Y-m-d H:i'],
-        'filter' => \kartik\widgets\DatePicker::widget([
-            'type' => \kartik\widgets\DatePicker::TYPE_RANGE,
+        'filter' => \kartik\date\DatePicker::widget([
+            'type' => \kartik\date\DatePicker::TYPE_RANGE,
             'language' => 'zh-CN',
             'layout' => '{input1}<br>{input2}',
             'name' => 'OrderSearch[from_date]',
