@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-08-02 18:05:27
+-- Generation Time: 2017-08-03 18:04:15
 -- 服务器版本： 10.1.8-MariaDB
 -- PHP Version: 5.6.15
 
@@ -1026,7 +1026,7 @@ CREATE TABLE IF NOT EXISTS `yii2_menu` (
   `hide` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否隐藏',
   `group` varchar(50) DEFAULT '' COMMENT '分组',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态'
-) ENGINE=MyISAM AUTO_INCREMENT=176 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=177 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `yii2_menu`
@@ -1115,7 +1115,8 @@ INSERT INTO `yii2_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `group`, `
 (168, '删除类型', 166, 0, 'traintype/delete', 0, '', 1),
 (173, '游戏', 0, 0, 'game/index', 0, '', 1),
 (174, '所有游戏', 173, 0, 'game/index', 0, '游戏管理|icon-comment', 1),
-(175, '添加游戏', 173, 0, 'game/add', 0, '游戏管理|icon-comment', 1);
+(175, '添加游戏', 173, 0, 'game/add', 0, '游戏管理|icon-comment', 1),
+(176, '区服列表', 173, 0, 'server/index', 0, '区服管理|icon-comment', 1);
 
 -- --------------------------------------------------------
 
@@ -1273,6 +1274,43 @@ CREATE TABLE IF NOT EXISTS `yii2_page` (
   `update_time` int(11) NOT NULL DEFAULT '0' COMMENT '更新时间',
   `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='单页面';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `yii2_patrner_users`
+--
+
+CREATE TABLE IF NOT EXISTS `yii2_patrner_users` (
+  `id` int(11) NOT NULL,
+  `username` varchar(30) NOT NULL COMMENT '推广用户名',
+  `pid` int(8) NOT NULL COMMENT '上级推广id',
+  `password` varchar(50) NOT NULL COMMENT '密码',
+  `type` enum('1','2','3','4','0') NOT NULL DEFAULT '0' COMMENT '1混服，2CPS，3CPA，4玩家',
+  `bankaccount` varchar(100) NOT NULL COMMENT '银行账户',
+  `realname` varchar(30) NOT NULL COMMENT '真实姓名',
+  `number_id` varchar(50) NOT NULL COMMENT '身份证',
+  `remark` varchar(255) NOT NULL COMMENT '备注',
+  `register_time` int(11) NOT NULL COMMENT '注册时间',
+  `lastlogin_time` int(11) NOT NULL COMMENT '最近登录时间',
+  `lastlogin_ip` varchar(30) NOT NULL COMMENT '最近登录ip',
+  `available_money` double(10,2) NOT NULL COMMENT '预支的金额',
+  `money` double(10,2) NOT NULL COMMENT '可用金额',
+  `admin_username` char(30) NOT NULL COMMENT '所属专员',
+  `totalmoney` double(10,2) NOT NULL COMMENT '总共推广金额',
+  `status` int(2) NOT NULL DEFAULT '1' COMMENT '状态',
+  `pay_tag` char(50) NOT NULL COMMENT '所属银行',
+  `tel` varchar(50) NOT NULL COMMENT '联系方式',
+  `email` varchar(100) NOT NULL COMMENT '邮箱',
+  `qq` varchar(20) NOT NULL COMMENT 'qq'
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `yii2_patrner_users`
+--
+
+INSERT INTO `yii2_patrner_users` (`id`, `username`, `pid`, `password`, `type`, `bankaccount`, `realname`, `number_id`, `remark`, `register_time`, `lastlogin_time`, `lastlogin_ip`, `available_money`, `money`, `admin_username`, `totalmoney`, `status`, `pay_tag`, `tel`, `email`, `qq`) VALUES
+(1, 'cps001', 0, '###27570b609485852fb400589afef5d011', '1', '', '', '', '系统默认推广员', 1450505425, 1494386298, '221.220.250.13', 12.00, 0.00, 'admin', 0.00, 1, '', '15222291959', '27102916@qq.com', '');
 
 -- --------------------------------------------------------
 
@@ -4878,11 +4916,11 @@ CREATE TABLE IF NOT EXISTS `yii2_server` (
   `content` varchar(255) COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '简介',
   `server_img` int(11) NOT NULL DEFAULT '0' COMMENT '开服表图标',
   `isstop` tinyint(2) NOT NULL DEFAULT '0' COMMENT '0-不停 1-停服',
-  `sid` varchar(10) COLLATE utf8mb4_bin NOT NULL COMMENT '本站区服ID',
+  `sid` varchar(10) COLLATE utf8mb4_bin NOT NULL DEFAULT '1' COMMENT '本站区服ID',
   `cp_gameid` varchar(10) COLLATE utf8mb4_bin NOT NULL COMMENT '联运游戏id',
   `cp_sid` varchar(10) COLLATE utf8mb4_bin NOT NULL COMMENT '联运区服ID',
   `is_del` tinyint(2) DEFAULT '0' COMMENT '1-删除'
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='区服表';
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='区服表';
 
 --
 -- 转存表中的数据 `yii2_server`
@@ -4890,7 +4928,8 @@ CREATE TABLE IF NOT EXISTS `yii2_server` (
 
 INSERT INTO `yii2_server` (`id`, `gid`, `servername`, `player_num`, `start_time`, `add_time`, `up_time`, `stop_notice`, `is_display`, `status`, `content`, `server_img`, `isstop`, `sid`, `cp_gameid`, `cp_sid`, `is_del`) VALUES
 (1, 1, '双线一区', 200, 1501651015, 1501651015, 1501651015, '', 1, 1, '', 0, 0, '1', '1', '1', 0),
-(2, 2, '双线2区', 200, 1501651015, 1501651015, 1501651015, '', 1, 1, '', 0, 0, '2', '1', '2', 0);
+(2, 1, '测试服', 200, 1501748127, 1501651015, 1501748198, '', 1, 1, '', 0, 0, '2', '1', '2', 0),
+(3, 1, '张三', 0, 1501874100, 1501746646, 1501748411, '', 0, 1, '', 0, 0, '1', '', '1', 0);
 
 -- --------------------------------------------------------
 
@@ -4912,11 +4951,14 @@ CREATE TABLE IF NOT EXISTS `yii2_tag` (
 
 CREATE TABLE IF NOT EXISTS `yii2_user` (
   `uid` int(10) unsigned NOT NULL COMMENT '用户ID',
-  `username` char(16) NOT NULL COMMENT '用户名',
+  `username` varchar(30) NOT NULL COMMENT '用户名',
   `password` char(60) NOT NULL COMMENT '密码',
+  `nickname` varchar(30) CHARACTER SET utf8mb4 NOT NULL COMMENT '昵称',
   `salt` char(32) NOT NULL COMMENT '密码干扰字符',
   `email` char(32) DEFAULT NULL COMMENT '用户邮箱',
   `mobile` char(15) NOT NULL DEFAULT '' COMMENT '用户手机',
+  `idcard` char(20) DEFAULT NULL COMMENT '身份证号',
+  `money` float(8,2) unsigned NOT NULL COMMENT '账户金额',
   `reg_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '注册时间',
   `reg_ip` bigint(20) NOT NULL DEFAULT '0' COMMENT '注册IP',
   `last_login_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后登录时间',
@@ -4926,26 +4968,10 @@ CREATE TABLE IF NOT EXISTS `yii2_user` (
   `image` varchar(255) NOT NULL DEFAULT '' COMMENT '头像路径',
   `score` int(8) unsigned NOT NULL DEFAULT '0' COMMENT '当前积分',
   `score_all` int(8) unsigned NOT NULL DEFAULT '0' COMMENT '总积分',
-  `allowance` int(5) NOT NULL COMMENT 'api接口调用速率限制',
-  `allowance_updated_at` int(10) NOT NULL COMMENT 'api接口调用速率限制',
+  `reg_gameid` int(5) unsigned NOT NULL COMMENT '注册游戏',
+  `reg_serverid` int(10) unsigned NOT NULL COMMENT '注冊区服',
   `status` tinyint(4) DEFAULT '0' COMMENT '用户状态 1正常 0禁用'
-) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='用户表';
-
---
--- 转存表中的数据 `yii2_user`
---
-
-INSERT INTO `yii2_user` (`uid`, `username`, `password`, `salt`, `email`, `mobile`, `reg_time`, `reg_ip`, `last_login_time`, `last_login_ip`, `update_time`, `tuid`, `image`, `score`, `score_all`, `allowance`, `allowance_updated_at`, `status`) VALUES
-(6, 'e282486518', '$2y$13$oO.xRlrKjMMF/bykb7476.zBIH2RkR6rtv8j5jrYgSxi71AvV3lFG', 'kXGkWeNSeoK7vakqRfUAviocq-5uy0cN', 'phphome@qq.com', '13656568989', 1456568652, 13654444444, 1456568652, 13556464888, 1481279978, 7, '1', 10, 0, 4, 1480328877, 1),
-(7, '282486518', '$2y$13$KIAenVWuR2Tgi1VCKiPegeVsQAHXyDcp9rUmzhqK6TNjL4Cqc3YPa', 'n9uguceYCqn_jQNd8F6-JRHOj21yltUo', 'phphome@qq.coms', '13645685421', 1472626509, 2130706433, 0, 2130706433, 1472626719, 0, '3', 1, 1, 0, 0, 0),
-(8, '135232323232', '$2y$13$UVA5264Qic4g8BDl940x1e0ZefVI3QqpH8tH6bttL/cF8GcU1C7Rm', 'Dg36PS0QshZ-Y2zhQJa559RSKJULGO_8', NULL, '', 1474112224, 2130706433, 0, 2130706433, 0, 0, '', 0, 0, 0, 0, 0),
-(13, 'aabbcc', '$2y$13$46n16kagedYUXx6WXZ2QkuSGJKm3FDr6iI.KPNzAkHYRHmplqgAiC', 'OblZ1QuXGGGiXZWTPqfDrCoF_qXVIN3b', '', '13421839870', 1474114459, 2130706433, 0, 2130706433, 1477904302, 0, '1', 0, 0, 0, 0, 1),
-(14, 'bvbvbv', '$2y$13$Jm2bfhSnqcSMTaPxRRWiReqrclkApB1Dc20kLTxVNHAzl7J8DH60K', 'jrYKEga9jbp2H6bsdLjvnEd5mqsRgMMD', NULL, '13013013330', 1474115843, 2130706433, 0, 2130706433, 0, 0, '', 0, 0, 0, 0, 1),
-(15, 'hahaha', '$2y$13$NsuZra9Z/DBaRk3R7tzvnuYrbmV5mIAKTKoksFcYHu3wUyJDaLPz.', 'BsDuGjz20Uexw6Kq_iw-s8AiqNmtec2u', NULL, '13636363636', 1474192435, 2130706433, 0, 2130706433, 0, 13, '', 0, 0, 0, 0, 1),
-(16, 'huanglala', '$2y$13$FJGFsH1fls8m3DWuxUrN9eJcDQZScQLyYaQIXVeSPK0WMlpT1C.Ze', '7EpKjeEwVqYQS7oV0QW7-JNy-UFchvY1', NULL, '13631639420', 1474197294, 2130706433, 0, 2130706433, 0, 13, '', 0, 0, 0, 0, 1),
-(17, 'binbin', '$2y$13$fbFtBRQgoH2PZ3wfCG1KIu8qdXeah.4KFZWI7kAE.4fDxM4lMuJ4q', 'tjCK1O9VaCtnvlNzRobRlnNHmbADlXPM', NULL, '18665354960', 1474334566, 1946572948, 0, 1946572948, 0, 6, '', 0, 0, 0, 0, 1),
-(18, 'lasek001', '$2y$13$qMb7n1rslyltgaCDNvy/mOcBuTfOmidi8.zXvnURHMqKkVydCj3h2', 'Fx-LBkD34aXdGkYt8a2S_6Vq991TrW6S', NULL, '13316922246', 1474380169, 1902700390, 0, 1902700390, 0, 0, '', 0, 0, 0, 0, 1),
-(19, 'feifeifei', '$2y$13$MRvZElUImZ.8gMsNV5ZEKuIkdkEamyc1tw/FHoPgQdp5x.WIPOroi', 'KWzNd8A57uVSMeLpDUB_ol1egfLPJ58C', NULL, '13631539420', 1474444147, 3070991720, 0, 3070991720, 0, 0, '', 0, 0, 0, 0, 1);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- --------------------------------------------------------
 
@@ -5210,6 +5236,13 @@ ALTER TABLE `yii2_page`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `yii2_patrner_users`
+--
+ALTER TABLE `yii2_patrner_users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`);
+
+--
 -- Indexes for table `yii2_picture`
 --
 ALTER TABLE `yii2_picture`
@@ -5245,7 +5278,8 @@ ALTER TABLE `yii2_user`
   ADD UNIQUE KEY `username` (`username`),
   ADD UNIQUE KEY `mobile` (`mobile`),
   ADD UNIQUE KEY `email` (`email`),
-  ADD KEY `status` (`status`);
+  ADD KEY `status` (`status`),
+  ADD KEY `nickname` (`nickname`);
 
 --
 -- Indexes for table `yii2_user_data`
@@ -5348,7 +5382,7 @@ ALTER TABLE `yii2_goods_sku`
 -- AUTO_INCREMENT for table `yii2_menu`
 --
 ALTER TABLE `yii2_menu`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文档ID',AUTO_INCREMENT=176;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文档ID',AUTO_INCREMENT=177;
 --
 -- AUTO_INCREMENT for table `yii2_message`
 --
@@ -5375,6 +5409,11 @@ ALTER TABLE `yii2_order`
 ALTER TABLE `yii2_page`
   MODIFY `id` int(8) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `yii2_patrner_users`
+--
+ALTER TABLE `yii2_patrner_users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT for table `yii2_picture`
 --
 ALTER TABLE `yii2_picture`
@@ -5383,7 +5422,7 @@ ALTER TABLE `yii2_picture`
 -- AUTO_INCREMENT for table `yii2_server`
 --
 ALTER TABLE `yii2_server`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `yii2_tag`
 --
@@ -5393,7 +5432,7 @@ ALTER TABLE `yii2_tag`
 -- AUTO_INCREMENT for table `yii2_user`
 --
 ALTER TABLE `yii2_user`
-  MODIFY `uid` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户ID',AUTO_INCREMENT=20;
+  MODIFY `uid` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户ID';
 --
 -- AUTO_INCREMENT for table `yii2_user_rank`
 --

@@ -52,14 +52,14 @@ $this->params['title_sub'] = '';  // 在\yii\base\View中有$params这个可以�
 
         <?=$form->field($model, 'pid')->selectList(
             ArrayHelper::merge(['0'=>'一级栏目'],ArrayHelper::listDataLevel( \backend\models\Menu::find()->asArray()->all(), 'id', 'title','id','pid')),
-            ['class'=>'form-control select2','widthclass'=>'c-md-2'])->label('上级菜单')->hint('上级菜单描述') ?>
+            ['class'=>'form-control select2','widthclass'=>'c-md-3'])->label('上级菜单')->hint('上级菜单描述') ?>
 
         <?=$form->field($model, 'group')->textInput(['class'=>'form-control c-md-3'])->label('分组')->hint('格式为：分组名称|图标样式 ，例如：系统|icon-comment')?>
 
         <?= $form->field($model, 'hide')->radioList(['0'=>'显示','1'=>'隐藏'])->label('是否隐藏') ?>
 
         <div class="form-actions">
-            <?= Html::submitButton('<i class="icon-ok"></i> 确定', ['class' => 'btn blue ajax-post','target-form'=>'form-aaa']) ?>
+            <?= Html::submitButton('<i class="icon-ok"></i> 确定', ['class' => 'btn blue','target-form'=>'form-aaa']) ?>
             <?= Html::button('取消', ['class' => 'btn']) ?>
         </div>
         <?php ActiveForm::end(); ?>

@@ -49,9 +49,11 @@ class MenuController extends BaseController
 
             if ($this->saveRow($model, $data)) {
                 $this->success('操作成功', $this->getForward());
-            } else {
-                $this->error('操作错误');
             }
+            var_dump($model->getErrors());
+//            else {
+//                $this->error('操作错误');
+//            }
         }
 
         /* 设置默认值 */

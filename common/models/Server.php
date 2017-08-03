@@ -31,6 +31,7 @@ namespace common\models;
  */
 class Server extends \common\core\BaseActiveRecord
 {
+    public $start_time_date;
     public static function tableName()
     {
         return "{{%server}}";
@@ -38,18 +39,27 @@ class Server extends \common\core\BaseActiveRecord
     public function rules()
     {
         return [
-            [['id','gid','player_num', 'start_time', 'add_time', 'up_time', 'is_display', 'status','server_img','isstop'], 'integer'],
+            [['servername'], 'string','max'=>50],
+            [['servername','start_time','start_time_date','sid','cp_sid'],'required','on'=>'savedata'],
+            [['id','gid','player_num','sid','add_time', 'up_time', 'is_display', 'status','server_img','isstop'], 'integer'],
             [['servername','stop_notice', 'content','sid','cp_gameid','	cp_sid'], 'safe'],
-            [['servername'], 'string', 'max' => 50],
-            [['gid','sid'], 'unique'],
         ];
     }
+    public function beforeValidate()
+    {
+
+        if ($this->start_time_date){
+            $this->start_time=strtotime($this->start_time_date);
+        }
+        return parent::beforeValidate();
+    }
+
     public function attributeLabels()
     {
         return [
             'id'=>'编号',
             'gid'=>'所属游戏',
-            'servername'=>'名称',
+            'servername'=>'服务器名称',
             'player_num'=>'玩家数量',
             'start_time'=>'开服时间',
             'add_time'=>'添加时间',
