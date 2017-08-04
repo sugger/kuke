@@ -5,7 +5,6 @@ namespace backend\models;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\web\IdentityInterface;
-
 /**
  * 实现User组件中的身份识别类 参见 yii\web\user
  * This is the model class for table "{{%admin}}".

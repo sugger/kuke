@@ -41,9 +41,10 @@ class User extends \common\core\BaseActiveRecord
     {
         return [
             [['username', 'password', 'salt'], 'required'],
-            [['reg_time', 'reg_ip', 'last_login_time', 'last_login_ip', 'update_time', 'tuid', 'score', 'score_all', 'status'], 'integer'],
+            [['reg_time', 'reg_ip','reg_serverid','reg_gameid', 'last_login_time', 'last_login_ip', 'update_time', 'tuid', 'score', 'score_all', 'status'], 'integer'],
             [['username'], 'string', 'max' => 16],
-            [['password'], 'string', 'max' => 60],
+            [['username'], 'string', 'max' => 16],
+            [['money'], 'number'],
             [['salt', 'email'], 'string', 'max' => 32],
             [['mobile'], 'string', 'max' => 15],
             [['image'], 'string', 'max' => 255],
@@ -64,6 +65,8 @@ class User extends \common\core\BaseActiveRecord
             'salt' => 'Salt',
             'email' => 'Email',
             'mobile' => 'Mobile',
+            'idcard' => 'Id Card',
+            'money' => 'Money',
             'reg_time' => 'Reg Time',
             'reg_ip' => 'Reg Ip',
             'last_login_time' => 'Last Login Time',
@@ -73,6 +76,8 @@ class User extends \common\core\BaseActiveRecord
             'image' => 'Image',
             'score' => 'Score',
             'score_all' => 'Score All',
+            'reg_gameid' => 'Reg GameId',
+            'reg_serverid' => 'Reg ServerId',
             'status' => 'Status',
         ];
     }
