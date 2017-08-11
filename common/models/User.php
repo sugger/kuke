@@ -40,7 +40,7 @@ class User extends \common\core\BaseActiveRecord
     public function rules()
     {
         return [
-            [['username', 'password', 'salt'], 'required'],
+            [['username', 'password'], 'required'],
             [['reg_time', 'reg_ip','reg_serverid','reg_gameid', 'last_login_time', 'last_login_ip', 'update_time', 'tuid', 'score', 'score_all', 'status'], 'integer'],
             [['username'], 'string', 'max' => 16],
             [['username'], 'string', 'max' => 16],
@@ -80,5 +80,15 @@ class User extends \common\core\BaseActiveRecord
             'reg_serverid' => 'Reg ServerId',
             'status' => 'Status',
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrder()
+    {
+        $limit = Yii::$app->request->get('limit', 5);
+        $offset = Yii::$app->request->get('offset', 0);
+        return $this->hasMany(Order::className(), ['uid' => 'id'])->limit($limit)->offset($offset);
     }
 }

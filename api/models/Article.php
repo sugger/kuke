@@ -1,37 +1,16 @@
 <?php
 
-namespace common\models;
+namespace api\models;
 
-/**
- * This is the model class for table "{{%article}}".
- *
- * @property integer $id
- * @property integer $category_id
- * @property string $name
- * @property string $title
- * @property integer $cover
- * @property string $description
- * @property string $content
- * @property string $extend
- * @property string $link
- * @property integer $up
- * @property integer $down
- * @property integer $view
- * @property integer $sort
- * @property integer $create_time
- * @property integer $update_time
- * @property integer $status
- */
-class Article extends \common\core\BaseActiveRecord
+
+class Article extends \common\models\Article
 {
-    const SHOW_STATUS = 1;
-    const HIDDEN_STATUS = 0;
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%article}}';
+        return 'yii2_article';
     }
 
     /**
@@ -73,5 +52,18 @@ class Article extends \common\core\BaseActiveRecord
             'update_time' => 'Update Time',
             'status' => 'Status',
         ];
+    }
+
+    public function getPicpath()
+    {
+        $pic = Picture::find()->where(['id' => $this->cover])->select(['path'])->asArray()->one();
+//            ->createCommand()->getRawSql();
+        return $pic['path'];
+    }
+
+    public function getArticletype()
+    {
+        $art = $this->hasOne(\common\models\ArticleCat::className(), ['id' => 'category_id']);
+        var_dump($art);
     }
 }

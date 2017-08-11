@@ -2,8 +2,6 @@
 
 namespace common\models;
 
-use Yii;
-
 /**
  * This is the model class for table "{{%picture}}".
  *
@@ -29,7 +27,7 @@ class Picture extends \common\core\BaseActiveRecord
     public function rules()
     {
         return [
-            [['create_time', 'status'], 'integer'],
+            [['id', 'create_time', 'status'], 'integer'],
             [['path'], 'string', 'max' => 255],
             [['md5'], 'string', 'max' => 32]
         ];

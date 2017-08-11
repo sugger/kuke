@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-08-03 18:04:15
+-- Generation Time: 2017-08-11 17:50:47
 -- 服务器版本： 10.1.8-MariaDB
 -- PHP Version: 5.6.15
 
@@ -822,7 +822,7 @@ CREATE TABLE IF NOT EXISTS `yii2_game` (
   `sort` int(8) NOT NULL DEFAULT '0' COMMENT '排序',
   `gametype` varchar(20) NOT NULL COMMENT '游戏类别',
   `gamestyle` smallint(5) NOT NULL COMMENT '类型ʽ',
-  `pic` smallint(6) NOT NULL,
+  `pic` tinytext NOT NULL COMMENT '图片数据',
   `payto` int(5) NOT NULL DEFAULT '10' COMMENT '比例',
   `content` text NOT NULL,
   `ishot` int(3) NOT NULL DEFAULT '0' COMMENT '是否推荐',
@@ -848,11 +848,36 @@ CREATE TABLE IF NOT EXISTS `yii2_game` (
 --
 
 INSERT INTO `yii2_game` (`id`, `name`, `game_starttime`, `short`, `sort`, `gametype`, `gamestyle`, `pic`, `payto`, `content`, `ishot`, `game_web`, `game_bbs`, `currency`, `addtime`, `game_hit`, `game_players`, `qq`, `isdisplay`, `isopen`, `desc1`, `game_api`, `game_conf`, `remarks`, `lander`, `is_del`) VALUES
-(1, '测试游戏', '2017-12-22 14:00:00', '1', 0, '1', 1, 0, 0, '', 1, '', '', '', 1501572776, 1, 0, '', 1, 1, '', 'jiekou', '', '', '', 0),
-(3, '测试1', '1900-12-09 07:35:00', '', 0, '2', 5, 0, 10, 'asdsa', 1, '', 'http://bbs.kukewan.com', '元宝', 1501495081, 1000, 7, '295729766', 0, 0, 'asdadsaasdsa', 'asdsadsa', '', '', '', 0),
-(4, '测试', '0000-00-00 00:00:00', '', 0, '2', 5, 0, 10, 'asdsa', 1, 'asdsad', '', '元宝', 1501494363, 1, 0, '', 0, 0, 'asdadsaasdsa', 'asdsadsa', NULL, '', '', 1),
-(5, '测试', '0000-00-00 00:00:00', '', 0, '2', 5, 0, 10, 'asdsa', 1, 'asdsad', 'adssad', '元宝1', 1501494593, 1, 0, 'asdsad', 0, 0, 'asdadsaasdsa', 'asdsadsa', 'dadsadsa', 'das', '', 0),
-(6, '测试', '0000-00-00 00:00:00', '', 0, '2', 5, 0, 10, 'asdsa', 1, 'asdsad', 'adssad', '元宝1', 1501494648, 1, 0, 'asdsad', 0, 0, 'asdadsaasdsa', 'asdsadsa', 'dadsadsa', 'das', '', 1);
+(1, '测试游戏', '2017-12-22 14:00:00', '1', 0, '1', 1, '{}', 0, '', 1, '', '', '', 1501572776, 1, 0, '', 1, 1, '', 'jiekou', '', '', '', 0),
+(3, '测试1', '1900-12-09 07:35:00', '', 0, '2', 5, '0', 10, 'asdsa', 1, '', 'http://bbs.kukewan.com', '元宝', 1501495081, 1000, 7, '295729766', 0, 0, 'asdadsaasdsa', 'asdsadsa', '', '', '', 0),
+(4, '测试', '0000-00-00 00:00:00', '', 0, '2', 5, '0', 10, 'asdsa', 1, 'asdsad', '', '元宝', 1501494363, 1, 0, '', 0, 0, 'asdadsaasdsa', 'asdsadsa', NULL, '', '', 1),
+(5, '测试', '0000-00-00 00:00:00', '', 0, '2', 5, '0', 10, 'asdsa', 1, 'asdsad', 'adssad', '元宝1', 1501494593, 1, 0, 'asdsad', 0, 0, 'asdadsaasdsa', 'asdsadsa', 'dadsadsa', 'das', '', 0),
+(6, '测试', '0000-00-00 00:00:00', '', 0, '2', 5, '0', 10, 'asdsa', 1, 'asdsad', 'adssad', '元宝1', 1501494648, 1, 0, 'asdsad', 0, 0, 'asdadsaasdsa', 'asdsadsa', 'dadsadsa', 'das', '', 1);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `yii2_game_login`
+--
+
+CREATE TABLE IF NOT EXISTS `yii2_game_login` (
+  `id` bigint(11) unsigned NOT NULL COMMENT 'id',
+  `userid` int(11) unsigned DEFAULT NULL COMMENT '用户id',
+  `gameid` int(11) unsigned DEFAULT NULL COMMENT '游戏id',
+  `serverid` smallint(5) unsigned NOT NULL COMMENT '区服ID',
+  `agent` varchar(30) DEFAULT NULL COMMENT '渠道商',
+  `login_time` int(11) unsigned DEFAULT NULL COMMENT '登录时间',
+  `reg_time` int(11) unsigned DEFAULT NULL COMMENT '注册时间',
+  `fromflag` smallint(2) DEFAULT '1' COMMENT '0无渠道 1工会 2推广 3混服',
+  `ip` bigint(20) unsigned DEFAULT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='游戏登录日志表';
+
+--
+-- 转存表中的数据 `yii2_game_login`
+--
+
+INSERT INTO `yii2_game_login` (`id`, `userid`, `gameid`, `serverid`, `agent`, `login_time`, `reg_time`, `fromflag`, `ip`) VALUES
+(1, 1, 1, 1, 'default', 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1225,39 +1250,37 @@ CREATE TABLE IF NOT EXISTS `yii2_nav` (
 
 CREATE TABLE IF NOT EXISTS `yii2_order` (
   `order_id` int(8) NOT NULL,
-  `order_sn` char(10) NOT NULL COMMENT '订单号',
-  `uid` int(8) DEFAULT '0' COMMENT '用户id',
+  `order_sn` varchar(30) NOT NULL COMMENT '订单号',
+  `uid` int(8) unsigned DEFAULT '0' COMMENT '用户id',
   `name` char(30) DEFAULT '' COMMENT '姓名',
-  `tel` char(20) DEFAULT '' COMMENT '电话',
-  `sfz` char(20) DEFAULT '' COMMENT '身份证号',
-  `type` char(10) NOT NULL COMMENT '订单类型 shop或train',
-  `aid` int(8) NOT NULL COMMENT '商品或培训ID',
+  `money` float(8,2) NOT NULL COMMENT '订单总额',
+  `rebate_id` int(8) unsigned NOT NULL COMMENT '代金券ID',
+  `really_money` float(8,2) NOT NULL DEFAULT '0.00' COMMENT '实际后款金额',
+  `type` char(10) NOT NULL COMMENT '订单类型',
+  `gameid` int(5) NOT NULL COMMENT '游戏ID',
+  `serverid` int(8) NOT NULL COMMENT '区服ID',
   `title` varchar(100) NOT NULL COMMENT '商品名称',
-  `province` int(6) DEFAULT '0' COMMENT '省',
-  `city` int(6) DEFAULT '0' COMMENT '市',
-  `area` int(6) DEFAULT '0' COMMENT '区',
-  `start_time` int(10) NOT NULL COMMENT '起租时间',
-  `end_time` int(10) NOT NULL COMMENT '退租时间',
-  `num` int(4) NOT NULL DEFAULT '1' COMMENT '数量',
-  `pay_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '支付状态 0未支付 1已支付',
+  `start_time` int(10) unsigned NOT NULL COMMENT '起租时间',
   `pay_time` int(10) NOT NULL COMMENT '支付时间',
-  `pay_type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '支付类型 1微信 2支付宝 3银联',
-  `pay_source` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '支付途径 1网站 2微信 3后台',
-  `create_time` int(10) NOT NULL COMMENT '订单创建时间',
-  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态'
+  `pay_type` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '支付类型 微信 支付宝 银联',
+  `pay_source` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '支付途径',
+  `create_time` int(10) unsigned NOT NULL COMMENT '订单创建时间',
+  `pay_status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '支付状态 0未支付 1已支付',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '状态',
+  `is_del` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否删除'
 ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='订单表';
 
 --
 -- 转存表中的数据 `yii2_order`
 --
 
-INSERT INTO `yii2_order` (`order_id`, `order_sn`, `uid`, `name`, `tel`, `sfz`, `type`, `aid`, `title`, `province`, `city`, `area`, `start_time`, `end_time`, `num`, `pay_status`, `pay_time`, `pay_type`, `pay_source`, `create_time`, `status`) VALUES
-(1, '135555111', 6, '', '', '', 'shop', 1, '商品名称', 150000, 152200, 152221, 1345678920, 1345688940, 1, 0, 1486347000, 1, 1, 1486347086, 1),
-(2, '135555111', 7, '', '', '', 'shop', 1, '商品名称1111', 0, 0, 0, 1345678940, 1345688940, 1, 1, 1365668940, 2, 2, 1365678940, 1),
-(3, '1473787901', 0, '', '', '', 'shop', 1, '大床双人房特价', 0, 0, 0, 1473811200, 1474416000, 1, 1, 1473787901, 1, 1, 1473787924, 1),
-(4, '1473788097', 0, '龙凤', '15956985698', '', 'train', 3, '帆船培训2', 5, 65, 629, 1473811200, 1474416000, 1, 0, 1478145300, 1, 1, 1473788126, 1),
-(5, '1474094023', 0, '111', '222', '', 'shop', 3, '大床双人房特价', 6, 80, 748, 1474529400, 1344600, 1, 1, 1480910460, 2, 1, 1474094061, 1),
-(6, '1480917844', 0, '啥打法是否', '13632565266', '', 'shop', 3, '测试酒店1', 110000, 110100, 110106, 1481165400, 1480575000, 1, 0, 1486347060, 4, 3, 1486347104, 1);
+INSERT INTO `yii2_order` (`order_id`, `order_sn`, `uid`, `name`, `money`, `rebate_id`, `really_money`, `type`, `gameid`, `serverid`, `title`, `start_time`, `pay_time`, `pay_type`, `pay_source`, `create_time`, `pay_status`, `status`, `is_del`) VALUES
+(1, '135555111', 1, '', 0.00, 0, 0.00, 'shop', 1, 1, '商品名称', 1345678920, 1486347000, 1, 1, 1486347086, 0, 1, 0),
+(2, '135555111', 1, '', 0.00, 0, 0.00, 'shop', 1, 1, '商品名称1111', 1345678940, 1365668940, 2, 2, 1365678940, 1, 1, 0),
+(3, '1473787901', 1, '', 0.00, 0, 0.00, 'shop', 3, 3, '大床双人房特价', 1473811200, 1473787901, 1, 1, 1473787924, 1, 1, 0),
+(4, '1473788097', 0, '龙凤', 0.00, 0, 0.00, 'train', 0, 3, '帆船培训2', 1473811200, 1478145300, 1, 1, 1473788126, 0, 1, 0),
+(5, '1474094023', 0, '111', 0.00, 0, 0.00, 'shop', 0, 3, '大床双人房特价', 1474529400, 1480910460, 2, 1, 1474094061, 1, 1, 0),
+(6, '1480917844', 0, '啥打法是否', 0.00, 0, 0.00, 'shop', 0, 3, '测试酒店1', 1481165400, 1486347060, 4, 3, 1486347104, 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -4929,7 +4952,7 @@ CREATE TABLE IF NOT EXISTS `yii2_server` (
 INSERT INTO `yii2_server` (`id`, `gid`, `servername`, `player_num`, `start_time`, `add_time`, `up_time`, `stop_notice`, `is_display`, `status`, `content`, `server_img`, `isstop`, `sid`, `cp_gameid`, `cp_sid`, `is_del`) VALUES
 (1, 1, '双线一区', 200, 1501651015, 1501651015, 1501651015, '', 1, 1, '', 0, 0, '1', '1', '1', 0),
 (2, 1, '测试服', 200, 1501748127, 1501651015, 1501748198, '', 1, 1, '', 0, 0, '2', '1', '2', 0),
-(3, 1, '张三', 0, 1501874100, 1501746646, 1501748411, '', 0, 1, '', 0, 0, '1', '', '1', 0);
+(3, 3, '张三', 0, 1501874100, 1501746646, 1501748411, '', 0, 1, '', 0, 0, '1', '', '1', 0);
 
 -- --------------------------------------------------------
 
@@ -4954,7 +4977,7 @@ CREATE TABLE IF NOT EXISTS `yii2_user` (
   `username` varchar(30) NOT NULL COMMENT '用户名',
   `password` char(60) NOT NULL COMMENT '密码',
   `nickname` varchar(30) CHARACTER SET utf8mb4 NOT NULL COMMENT '昵称',
-  `salt` char(32) NOT NULL COMMENT '密码干扰字符',
+  `salt` char(32) DEFAULT NULL COMMENT '登录验证字符',
   `email` char(32) DEFAULT NULL COMMENT '用户邮箱',
   `mobile` char(15) NOT NULL DEFAULT '' COMMENT '用户手机',
   `idcard` char(20) DEFAULT NULL COMMENT '身份证号',
@@ -4971,7 +4994,15 @@ CREATE TABLE IF NOT EXISTS `yii2_user` (
   `reg_gameid` int(5) unsigned NOT NULL COMMENT '注册游戏',
   `reg_serverid` int(10) unsigned NOT NULL COMMENT '注冊区服',
   `status` tinyint(4) DEFAULT '0' COMMENT '用户状态 1正常 0禁用'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户表';
+
+--
+-- 转存表中的数据 `yii2_user`
+--
+
+INSERT INTO `yii2_user` (`uid`, `username`, `password`, `nickname`, `salt`, `email`, `mobile`, `idcard`, `money`, `reg_time`, `reg_ip`, `last_login_time`, `last_login_ip`, `update_time`, `tuid`, `image`, `score`, `score_all`, `reg_gameid`, `reg_serverid`, `status`) VALUES
+(1, 'user001', '$2y$13$UwQndOKz1qyfyBg0A7yCx.lZKXMlwoH3VMtbcpWaveQfzG6dq5npy', '', 'tloMowc7IwAJu5RD1Ecdd516N_k3F_OD', 'user001@mail.com', '15222291959', NULL, 0.00, 1501814354, 2130706433, 1502160490, 2130706433, 1502160490, 0, '', 100, 100, 0, 0, 1),
+(2, 'user002', '$2y$13$8V32rbJviMNfzNqAeByZyuv/PDaK0RPw1x4ZffLf60kiEehLZl9/O', '', '2k4ZUneUyVok9kbp2QuidavQSQ-tj1nQ', 'user002@mail.com', '15222291958', NULL, 0.00, 1501814354, 2130706433, 0, 2130706433, 0, 0, '', 100, 100, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -5125,6 +5156,18 @@ ALTER TABLE `yii2_config`
 --
 ALTER TABLE `yii2_game`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `yii2_game_login`
+--
+ALTER TABLE `yii2_game_login`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id` (`id`),
+  ADD KEY `userid` (`userid`),
+  ADD KEY `gameid` (`gameid`),
+  ADD KEY `agent` (`agent`),
+  ADD KEY `IDX_US_GA_AG` (`userid`,`gameid`,`agent`),
+  ADD KEY `login_time` (`login_time`);
 
 --
 -- Indexes for table `yii2_game_type`
@@ -5349,6 +5392,11 @@ ALTER TABLE `yii2_config`
 ALTER TABLE `yii2_game`
   MODIFY `id` int(8) NOT NULL AUTO_INCREMENT COMMENT '游戏id',AUTO_INCREMENT=7;
 --
+-- AUTO_INCREMENT for table `yii2_game_login`
+--
+ALTER TABLE `yii2_game_login`
+  MODIFY `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT for table `yii2_game_type`
 --
 ALTER TABLE `yii2_game_type`
@@ -5432,7 +5480,7 @@ ALTER TABLE `yii2_tag`
 -- AUTO_INCREMENT for table `yii2_user`
 --
 ALTER TABLE `yii2_user`
-  MODIFY `uid` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户ID';
+  MODIFY `uid` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户ID',AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `yii2_user_rank`
 --

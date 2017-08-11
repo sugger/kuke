@@ -9,36 +9,34 @@
 namespace common\models;
 
 /**
- * This is the model class for table "{{%config}}".
+ * This is the model class for table "{{%game}}".
  *
-|字段|类型|空|默认
-|------
-|id|int(8)|否|
-|game_starttime|datetime()|否|
-|sort|int(8)|否|
-|name|varchar(55)|否|
-|short|char(3)|否|
-|gametype|varchar(20)|否|
-|gamestyle|smallint(5)|否|
-|pic|tinytext|否|
-|payto|int(5)|否|
-|content|text|否|
-|ishot|int(3)|否|0
-|game_web|varchar(255)|否|
-|game_bbs|varchar(255)|否|
-|currency|char(20)|否|
-|addtime|int(15)|否|
-|game_hit|int(8)|否|1
-|game_players|int(11)|否|
-|qq|text|否|
-|isdisplay|int(2)|否|
-|isopen|int(2)|否|
-|desc1|varchar(255)|否|
-|game_api|varchar(60)|是|NULL
-|game_conf|varchar(60)|是|NULL
-|remarks|text|否|
-|lander|varchar(254)|否|
-|is_del|tinyint(2)|否|
+ * @property integer $id
+ * @property string $name
+ * @property string $game_starttime
+ * @property string $short
+ * @property integer $sort
+ * @property string $gametype
+ * @property integer $gamestyle
+ * @property string $pic
+ * @property integer $payto
+ * @property string $content
+ * @property integer $ishot
+ * @property string $game_web
+ * @property string $game_bbs
+ * @property string $currency
+ * @property integer $addtime
+ * @property integer $game_hit
+ * @property integer $game_players
+ * @property string $qq
+ * @property integer $isdisplay
+ * @property integer $isopen
+ * @property string $desc1
+ * @property string $game_api
+ * @property string $game_conf
+ * @property string $remarks
+ * @property string $lander
+ * @property integer $is_del
  */
 class Game extends \common\core\BaseActiveRecord
 {
@@ -53,11 +51,16 @@ class Game extends \common\core\BaseActiveRecord
     public function rules()
     {
         return [
-            [['name', 'game_api','payto'], 'required'],
-            [[ 'isopen','isdisplay','sort', 'gametype', 'gamestyle', 'payto', 'sort', 'ishot','game_hit','game_players'], 'integer'],
-            [['game_starttime','name', 'content','game_web','game_bbs','currency','qq','desc1','game_conf','remarks','lander'], 'string'],
-            [['name'], 'string', 'max' => 40],
-            [['desc1'], 'string', 'max' => 140],
+            [['name', 'game_starttime', 'short', 'gametype', 'gamestyle', 'pic', 'content', 'game_web', 'game_bbs', 'addtime', 'qq', 'desc1', 'remarks', 'is_del'], 'required'],
+            [['game_starttime'], 'safe'],
+            [['sort', 'gamestyle', 'payto', 'ishot', 'addtime', 'game_hit', 'game_players', 'isdisplay', 'isopen', 'is_del'], 'integer'],
+            [['pic', 'content', 'qq', 'remarks'], 'string'],
+            [['name'], 'string', 'max' => 55],
+            [['short'], 'string', 'max' => 10],
+            [['gametype', 'currency'], 'string', 'max' => 20],
+            [['game_web', 'game_bbs', 'desc1'], 'string', 'max' => 255],
+            [['game_api', 'game_conf'], 'string', 'max' => 60],
+            [['lander'], 'string', 'max' => 254],
         ];
     }
 
@@ -95,4 +98,10 @@ class Game extends \common\core\BaseActiveRecord
             'is_del' => '删除',
         ];
     }
+
+    public function pic($id)
+    {
+        return Picture::findOne($id);
+    }
+
 }
