@@ -13,9 +13,32 @@ use api\controllers\BaseController;
 use api\models\User;
 use common\helpers\StringHelper;
 use Yii;
-
+use api\models\Picture;
+use common\models\Ad;
 class PublicController extends BaseController
 {
+    public function actionImg(){
+        $id=Yii::$app->request->get('id',0);
+        if (empty($id)) return $this->response(11006);
+        $pic=static::getImg($id);
+        if (empty($pic)) return $this->response(11007);
+        return $this->response(200,['path'=>$pic->path]);
+    }
+    public function actionBanner(){
+        $id=Yii::$app->request->get('cateid');
+        if (!$id) $this->response(11008);
+        $banner=Ad::getAdByTypeid($id);
+        return $this->response(200,array_map(function ($data){
+            $data['image']=static::getImg($data['image']);
+            return $data;
+        },$banner));
+    }
+    private static function getImg($id){
+        $pic=Picture::findOne($id);
+        if (empty($pic)) return false;
+        return $pic->path;
+
+    }
     /**
      * @return array
      * todo 没有加暴力破解

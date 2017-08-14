@@ -9,28 +9,38 @@
 namespace common\models;
 
 /**
- * Class Server 区服模型
- * @package common\models
-|字段|类型|空|默认
-|**id**|int(11)|否|
-|gid|smallint(6)|否|
-|servername|varchar(50)|否|
-|player_num|int(7)|否|
-|start_time|int(13)|否|
-|add_time|int(13)|否|
-|up_time|int(13)|否|
-|stop_notice|varchar(255)|否|
-|is_display|tinyint(2)|否|
-|status|tinyint(2)|否|
-|content|varchar(255)|否|''
-|server_img|int(11)|否|0
-|isstop|tinyint(2)|否|
-|sid|varchar(10)|否|
-|cp_gameid|varchar(10)|否|
-|cp_sid|int(11)|否|
+ * This is the model class for table "{{%server}}".
+ *
+ * @property integer $id
+ * @property integer $gid
+ * @property string $servername
+ * @property integer $player_num
+ * @property integer $start_time
+ * @property integer $add_time
+ * @property integer $up_time
+ * @property string $stop_notice
+ * @property integer $is_display
+ * @property integer $status
+ * @property string $content
+ * @property integer $server_img
+ * @property integer $isstop
+ * @property string $sid
+ * @property string $cp_gameid
+ * @property string $cp_sid
+ * @property integer $is_del
  */
 class Server extends \common\core\BaseActiveRecord
 {
+    const DEL_YES =1;
+    const DEL_NO=0;
+    const SHOW=1;
+    const HIDDEN=0;
+    const STOP_YES=1;
+    const STOP_NO=0;
+    const TJ_YES=1;
+    const TJ_NO=0;
+
+
     public $start_time_date;
     public static function tableName()
     {
@@ -39,10 +49,12 @@ class Server extends \common\core\BaseActiveRecord
     public function rules()
     {
         return [
-            [['servername'], 'string','max'=>50],
             [['servername','start_time','start_time_date','sid','cp_sid'],'required','on'=>'savedata'],
-            [['id','gid','player_num','sid','add_time', 'up_time', 'is_display', 'status','server_img','isstop'], 'integer'],
-            [['servername','stop_notice', 'content','sid','cp_gameid','	cp_sid'], 'safe'],
+            [['gid', 'servername', 'player_num', 'start_time', 'add_time', 'up_time', 'stop_notice', 'is_display', 'status', 'cp_gameid', 'cp_sid'], 'required'],
+            [['gid', 'player_num', 'start_time', 'add_time', 'up_time', 'is_display', 'status', 'server_img', 'isstop', 'is_del'], 'integer'],
+            [['servername'], 'string', 'max' => 50],
+            [['stop_notice', 'content'], 'string', 'max' => 255],
+            [['sid', 'cp_gameid', 'cp_sid'], 'string', 'max' => 10],
         ];
     }
     public function beforeValidate()

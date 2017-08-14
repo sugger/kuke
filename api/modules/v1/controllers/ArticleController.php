@@ -4,19 +4,20 @@ namespace api\modules\v1\controllers;
 
 use api\controllers\BaseController;
 use api\models\Article;
+use api\models\ArticlePosition;
 use Yii;
 
-class ArticleController extends BaseController
+class ArticleController extends BaseController/*\yii\web\Controller*/
 {
-    public function behaviors()
-    {
-        $behaviors = parent::behaviors();
-        /* 设置认证方式 */
-        $behaviors['authenticator'] = [
-            'class' => \yii\filters\auth\QueryParamAuth::className(),
-        ];
-        return $behaviors;
-    }
+//    public function behaviors()
+//    {
+//        $behaviors = parent::behaviors();
+//        /* 设置认证方式 */
+//        $behaviors['authenticator'] = [
+//            'class' => \yii\filters\auth\QueryParamAuth::className(),
+//        ];
+//        return $behaviors;
+//    }
 
     /**
      * @return array
@@ -31,10 +32,21 @@ class ArticleController extends BaseController
         $articles = Article::find()->where($where)->offset($offset)->limit($limit)
             ->select(['id', 'name as tag', 'cover', 'title', 'description', 'link', 'create_time'])
             ->all();
-//        $article=$articles[0];
-//        $article->picpath;
-//        $article->articletype;
-//        return ['success'];
+        return $this->response(200,$articles);
     }
+    public function actionWebarticle(){
+        $id=Yii::$app->request->get('id',0);
+        if (!$id) return $this->response(102001);
+        $articles=ArticlePosition::getArticlesByPosition_id($id);
+        return $this->response(200,$articles);
+    }
+    public function actionRead(){
+        $id=Yii::$app->request->get('id',0);
+        if (!$id) return $this->response(102002);
+        $article=Article::findOne(['id'=>$id,'status'=>Article::ACTIVE_STATUS]);
+        if (empty($article)) return $this->response(102003);
+        return $this->response(200,$article);
+    }
+
 
 }

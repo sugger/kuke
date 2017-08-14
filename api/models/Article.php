@@ -5,6 +5,9 @@ namespace api\models;
 
 class Article extends \common\models\Article
 {
+    const ACTIVE_STATUS=1;
+    const DEL_STATUS=0;
+
     /**
      * @inheritdoc
      */

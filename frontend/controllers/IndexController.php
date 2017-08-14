@@ -1,7 +1,7 @@
 <?php
 
 namespace frontend\controllers;
-use yii\web\Controller;
+use api\controllers\BaseController;
 class IndexController extends Controller
 {
     public function actionIndex()

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-08-11 17:50:47
+-- Generation Time: 2017-08-14 18:03:58
 -- 服务器版本： 10.1.8-MariaDB
 -- PHP Version: 5.6.15
 
@@ -105,6 +105,26 @@ INSERT INTO `yii2_admin_log` (`id`, `uid`, `title`, `controller`, `action`, `que
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `yii2_ad_type`
+--
+
+CREATE TABLE IF NOT EXISTS `yii2_ad_type` (
+  `id` int(11) NOT NULL,
+  `name` varchar(30) COLLATE utf8mb4_bin NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `status` enum('0','1','2') COLLATE utf8mb4_bin NOT NULL COMMENT '0隐藏1显示2删除'
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+--
+-- 转存表中的数据 `yii2_ad_type`
+--
+
+INSERT INTO `yii2_ad_type` (`id`, `name`, `createtime`, `status`) VALUES
+(1, '测试广告', 0, '1');
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `yii2_article`
 --
 
@@ -184,9 +204,20 @@ INSERT INTO `yii2_article_cat` (`id`, `pid`, `name`, `title`, `link`, `extend`, 
 --
 
 CREATE TABLE IF NOT EXISTS `yii2_article_position` (
+  `id` int(11) NOT NULL,
   `article_id` int(8) unsigned NOT NULL COMMENT '文章ID',
   `position_id` int(4) unsigned NOT NULL COMMENT '推荐位ID'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='文章推荐位映射表';
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='文章推荐位映射表';
+
+--
+-- 转存表中的数据 `yii2_article_position`
+--
+
+INSERT INTO `yii2_article_position` (`id`, `article_id`, `position_id`) VALUES
+(1, 2, 1),
+(2, 3, 1),
+(3, 4, 1),
+(4, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -4951,7 +4982,7 @@ CREATE TABLE IF NOT EXISTS `yii2_server` (
 
 INSERT INTO `yii2_server` (`id`, `gid`, `servername`, `player_num`, `start_time`, `add_time`, `up_time`, `stop_notice`, `is_display`, `status`, `content`, `server_img`, `isstop`, `sid`, `cp_gameid`, `cp_sid`, `is_del`) VALUES
 (1, 1, '双线一区', 200, 1501651015, 1501651015, 1501651015, '', 1, 1, '', 0, 0, '1', '1', '1', 0),
-(2, 1, '测试服', 200, 1501748127, 1501651015, 1501748198, '', 1, 1, '', 0, 0, '2', '1', '2', 0),
+(2, 1, '测试服', 200, 1501748127, 1501651015, 1501748198, '', 1, 0, '', 0, 0, '2', '1', '2', 0),
 (3, 3, '张三', 0, 1501874100, 1501746646, 1501748411, '', 0, 1, '', 0, 0, '1', '', '1', 0);
 
 -- --------------------------------------------------------
@@ -5068,6 +5099,12 @@ ALTER TABLE `yii2_admin_log`
   ADD KEY `status` (`status`);
 
 --
+-- Indexes for table `yii2_ad_type`
+--
+ALTER TABLE `yii2_ad_type`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `yii2_article`
 --
 ALTER TABLE `yii2_article`
@@ -5087,6 +5124,7 @@ ALTER TABLE `yii2_article_cat`
 -- Indexes for table `yii2_article_position`
 --
 ALTER TABLE `yii2_article_position`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `article_id` (`article_id`),
   ADD KEY `position_id` (`position_id`);
 
@@ -5357,6 +5395,11 @@ ALTER TABLE `yii2_admin`
 ALTER TABLE `yii2_admin_log`
   MODIFY `id` int(8) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
+-- AUTO_INCREMENT for table `yii2_ad_type`
+--
+ALTER TABLE `yii2_ad_type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT for table `yii2_article`
 --
 ALTER TABLE `yii2_article`
@@ -5366,6 +5409,11 @@ ALTER TABLE `yii2_article`
 --
 ALTER TABLE `yii2_article_cat`
   MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '分类ID',AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT for table `yii2_article_position`
+--
+ALTER TABLE `yii2_article_position`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `yii2_captcha`
 --
