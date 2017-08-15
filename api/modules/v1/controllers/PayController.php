@@ -30,4 +30,35 @@ class PayController extends  BaseController
 
     }
 
+    /**
+     * 对外付款接口
+     */
+    public function actionPay(){
+
+    }
+
+    /**
+     * 通知接口
+     */
+    public function actionNotify(){
+
+    }
+
+
+    /**
+     * 付款日志
+     */
+    protected function PayLog(){
+
+    }
+
+    /**
+     * @param $order object
+     * @param $classname object
+     */
+
+    protected function GamePay( $order , $classname){
+
+    }
+
 }

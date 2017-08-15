@@ -8,8 +8,20 @@
 
 namespace api\modules\v1\controllers;
 
-
-class GameController
+use api\controllers\BaseController;
+use api\models\Game;
+class GameController extends BaseController
 {
+    public function actionGet(){
+        $where=['gid'=>95];
+        return Game::getNotexit($where);
+    }
 
+    /**
+     * @return string
+     */
+    public function actionIndex()
+    {
+        echo "asdjlasd";
+    }
 }

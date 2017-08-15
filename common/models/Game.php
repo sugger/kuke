@@ -40,6 +40,10 @@ namespace common\models;
  */
 class Game extends \common\core\BaseActiveRecord
 {
+    const TYPE_PC_WEB=0;
+    const TYPE_APP=1;
+    const TYPE_H5=2;
+    const TYPE_PC_CLIENT=3;
     public static function tableName()
     {
         return "{{%game}}";
