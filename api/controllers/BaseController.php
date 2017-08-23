@@ -12,7 +12,7 @@ use yii\rest\Controller;
 
 class BaseController extends Controller
 {
-    public function response($code = 0, $data = [])
+    public static function response($code = 0, $data = [])
     {
         return [
             'status' => 200,

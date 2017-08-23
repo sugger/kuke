@@ -33,7 +33,7 @@ class PublicController extends BaseController
             return $data;
         },$banner));
     }
-    private static function getImg($id){
+    public static function getImg($id){
         $pic=Picture::findOne($id);
         if (empty($pic)) return false;
         return $pic->path;
@@ -45,17 +45,17 @@ class PublicController extends BaseController
      */
     public function actionLogin()
     {
-        $username = Yii::$app->request->param('u');
+        $username = Yii::$app->request->post('u');
         if (!$username) return $this->response(11001);//用户名不能为空
-        $password = Yii::$app->request->param('p');
+        $password = Yii::$app->request->post('p');
         if (!$password) return $this->response(11002);//密码不能为空
         $user = User::findByUsername($username);
         if (empty($user)) return $this->response(11003);//用户名不存在
         if (!$user->validatePassword($password)) return $this->response(11004);//密码错误
         $key = $user->resetAuthKey();
-        $user->last_login_time = time();
-        $user->last_login_ip = ip2long(Yii::$app->request->getUserIP());
-        return $user->save() ?
+        $user->last_login_time = (string)time();
+        $user->last_login_ip = (string)ip2long(Yii::$app->request->getUserIP());
+        return $user->save(false) ?
             $this->response(200, ['access-token' => $key]) :
             $this->response(11005);
     }
@@ -87,50 +87,50 @@ class PublicController extends BaseController
     {
         switch ($type) {
             case 'idcard':
-                return json_encode(StringHelper::idcard_checksum18($string) ?
+                return (StringHelper::idcard_checksum18($string) ?
                     ['msg' => '身份证号码校验正确!', 'info' => 'idcard', 'code' => 1] :
                     ['msg' => '对不起，身份证号码校验错误!', 'info' => 'idcard', 'code' => -1]);
                 break;
             case 'realname':
                 $RegExp = "/^[\x{4E00}-\x{9FA5}]{2,6}+$/u";
                 if (!preg_match($RegExp, $string)) {
-                    return json_encode(['msg' => '对不起，真实姓名格式不正确!', 'info' => 'realname', 'code' => -1]);
+                    return (['msg' => '对不起，真实姓名格式不正确!', 'info' => 'realname', 'code' => -1]);
                 } elseif (!self::checkSurname($string)) {
-                    return json_encode(['msg' => '对不起，不符合百家姓规则！', 'info' => 'realname', 'code' => -1]);
+                    return (['msg' => '对不起，不符合百家姓规则！', 'info' => 'realname', 'code' => -1]);
                 } else {
-                    return json_encode(['msg' => '校验正确！', 'info' => 'realname', 'code' => 1]);
+                    return (['msg' => '校验正确！', 'info' => 'realname', 'code' => 1]);
                 }
-                return json_encode(preg_match($RegExp, $string) ?
+                return (preg_match($RegExp, $string) ?
                     ['msg' => '校验正确!', 'info' => 'idcard', 'code' => 1] :
                     ['msg' => '对不起，真实姓名必须是中文!', 'info' => 'idcard', 'code' => -1]);
                 break;
             case 'email':
                 $RegExp = "/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/";
-                return json_encode(preg_match($RegExp, $string) ?
+                return (preg_match($RegExp, $string) ?
                     ['msg' => '校验正确!', 'info' => 'email', 'code' => 1] :
                     ['msg' => '对不起，邮箱格式错误', 'info' => 'email', 'code' => -1]);
                 break;
             case 'username':
                 $RegExp = "/^[a-zA-Z]+([a-zA-Z0-9_]{5,10})+$/";
                 if (!preg_match($RegExp, $string)) {
-                    return json_encode(['msg' => '用户名为以字母开头的6-11个字符！', 'info' => 'username', 'code' => -1]);
+                    return (['msg' => '用户名为以字母开头的6-11个字符！', 'info' => 'username', 'code' => -1]);
                 } elseif (User::findByUsername($string)) {
-                    return json_encode(['msg' => '用户名为已存在！', 'info' => 'username', 'code' => -1]);
+                    return (['msg' => '用户名为已存在！', 'info' => 'username', 'code' => -1]);
                 } else {
-                    return json_encode(['msg' => '用户名可用！', 'info' => 'username', 'code' => 1]);
+                    return (['msg' => '用户名可用！', 'info' => 'username', 'code' => 1]);
                 }
                 break;
             case 'phone':
                 if (!StringHelper::checkMobile($string)) {//格式
-                    return json_encode(['msg' => '手机号格式不正确！', 'info' => 'phone', 'code' => -1]);
+                    return (['msg' => '手机号格式不正确！', 'info' => 'phone', 'code' => -1]);
                 } elseif (User::findByUserPhone($string)) {
-                    return json_encode(['msg' => '手机号已被使用', 'info' => 'phone', 'code' => -2]);
+                    return (['msg' => '手机号已被使用', 'info' => 'phone', 'code' => -2]);
                 } else {
-                    return json_encode(['msg' => '手机号可用', 'info' => 'phone', 'code' => 1]);
+                    return (['msg' => '手机号可用', 'info' => 'phone', 'code' => 1]);
                 }
                 break;
             default:
-                return json_encode(['msg' => '验证类型不存在', 'info' => 'other', 'code' => -1]);
+                return (['msg' => '验证类型不存在', 'info' => 'other', 'code' => -1]);
                 break;
         }
     }

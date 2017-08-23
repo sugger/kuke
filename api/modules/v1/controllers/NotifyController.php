@@ -9,7 +9,9 @@
 namespace api\modules\v1\controllers;
 
 
-class NotifyController
+use api\controllers\BaseController;
+
+class NotifyController extends BaseController
 {
 
 }

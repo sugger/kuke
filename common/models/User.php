@@ -41,13 +41,16 @@ class User extends \common\core\BaseActiveRecord
     {
         return [
             [['username', 'password'], 'required'],
-            [['reg_time', 'reg_ip','reg_serverid','reg_gameid', 'last_login_time', 'last_login_ip', 'update_time', 'tuid', 'score', 'score_all', 'status'], 'integer'],
+            [['uid','reg_time', 'reg_ip','reg_serverid','reg_gameid', 'last_login_time', 'last_login_ip', 'tuid', 'score', 'score_all', 'status'], 'integer'],
             [['username'], 'string', 'max' => 16],
-            [['username'], 'string', 'max' => 16],
-            [['money'], 'number'],
+            [['nickname'], 'string', 'max' => 30],
+            [['idcard'], 'string', 'max' => 20],
+            [['update_time'], 'string'],
+            [['money','total_money',], 'number'],
             [['salt', 'email'], 'string', 'max' => 32],
             [['mobile'], 'string', 'max' => 15],
             [['image'], 'string', 'max' => 255],
+            [['from_social'], 'string', 'max' => 200],
             [['username'], 'unique'],
             [['email'], 'unique']
         ];
@@ -67,6 +70,8 @@ class User extends \common\core\BaseActiveRecord
             'mobile' => 'Mobile',
             'idcard' => 'Id Card',
             'money' => 'Money',
+            'total_money' => 'Total Money',
+            'from_social' => 'From Social',
             'reg_time' => 'Reg Time',
             'reg_ip' => 'Reg Ip',
             'last_login_time' => 'Last Login Time',
@@ -89,6 +94,6 @@ class User extends \common\core\BaseActiveRecord
     {
         $limit = Yii::$app->request->get('limit', 5);
         $offset = Yii::$app->request->get('offset', 0);
-        return $this->hasMany(Order::className(), ['uid' => 'id'])->limit($limit)->offset($offset);
+        return $this->hasMany(Order::className(), ['uid' => 'id'])->orderBy('create_time desc')->limit($limit)->offset($offset);
     }
 }

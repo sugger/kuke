@@ -21,7 +21,7 @@ class Game extends \common\models\Game
     public static function getNotexit($where){
         $where['table']='game';
         $time=time();
-        $apiurl="http://mix.kukewan.com/index1.php?s=newsiteapi/getdata&t={$time}&ccc=".md5($time.'newsite');
+        $apiurl="http://mix.kukewan.com/newsiteapi/getdata&t={$time}&ccc=".md5($time.'newsite');
         $data_string=json_encode($where);
         $ch=curl_init();
         curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
@@ -35,17 +35,14 @@ class Game extends \common\models\Game
         );
         $content=curl_exec($ch);
         curl_close($ch);
-        echo $content=urldecode($content);
         $return=json_decode($content,true);
-        echo json_last_error();
-        var_dump($return);
-        die;
+
         if ($return['status']!=1)return false;
         return [
             'id' => $return['data']['gid'],
             'game_starttime' => $return['data']['game_starttime'],
-            'name' => $return['data']['sort'],
-            'short' => $return['data']['sort'],
+            'name' => $return['data']['gamename'],
+            'short' => $return['data']['short'],
             'sort'=>$return['data']['sort'],
             'gametype' => 0,
             'gamestyle' => $return['data']['gamestyle'],
@@ -73,7 +70,7 @@ class Game extends \common\models\Game
             'isdisplay' => 1,
             'isopen' => 1 ,
             'desc1' => $return['data']['desc1'],
-            'game_api' => $return['data']['game_api'],
+            'game_api' => 'Kuke',
             'game_conf' => json_encode([
                 'game_key'=>$return['data']['game_key'],
                 'game_url'=>$return['data']['game_url'],

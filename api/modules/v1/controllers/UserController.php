@@ -6,7 +6,7 @@ use api\controllers\BaseController;
 use api\models\GameLogin;
 use api\models\User;
 use Yii;
-use yii\filters\auth\QueryParamAuth;
+
 
 /**
  * 这里注意是继承 yii\rest\ActiveController 因为源码中已经帮我们实现了index/update等方法
@@ -20,35 +20,65 @@ use yii\filters\auth\QueryParamAuth;
  */
 class UserController extends BaseController
 {
-    public function behaviors()
-    {
-        $behaviors = parent::behaviors();
-        /* 设置认证方式 */
-        $behaviors['authenticator'] = [
-            'class' => QueryParamAuth::className(),
-        ];
-        return $behaviors;
-    }
+//    public function behaviors()
+//    {
+//        $behaviors = parent::behaviors();
+//        /* 设置认证方式 */
+//        $behaviors['authenticator'] = [
+//            'class' => QueryParamAuth::className(),
+//        ];
+//        return $behaviors;
+//    }
 
     public function actionIndex()
     {
-        return $this->response(200, ['MSG' => '用户接口']);
+        return static::response(200, ['MSG' => '用户接口']);
     }
 
+    /*
+     * 提交重置密码
+     * @param $type phone | email
+     * @param $code
+     * @return array
+     */
+    public function actionResetpass()
+    {
+        $user = Yii::$app->user->getIdentity();
+        return static::response(200, $user);
+    }
+    /*
+    * token获取重置密码的用户基本信息及提交密码时所需的token
+    * @param $type phone | email
+    * @param $code
+    * @return array
+    */
+    public function actionCheckresettoken(){
+
+    }
     /**
      * 获取用户信息
      * @return array
      */
-    public function actionInfo()
+    public static function Info()
     {
         $user = Yii::$app->user->getIdentity();
-        return $this->response(200, $user);
+        return static::response(200, $user);
+    }
+
+    /**
+     * 防沉迷
+     * @return array
+     */
+    public static function Fcm()
+    {
+        $user = Yii::$app->user->getIdentity();
+        return static::response(200, $user);
     }
 
     /**
      * 获取游戏登录记录
      */
-    public function actionGamehistory()
+    public static function Gamehistory()
     {
         $gid = Yii::$app->request->get('gid');
         $limit = Yii::$app->request->get('num', 5);
@@ -70,7 +100,7 @@ class UserController extends BaseController
             ];
 
         }, $log);
-        return $this->response(0, $log);
+        return static::response(0, $log);
     }
 
     /**
@@ -78,11 +108,12 @@ class UserController extends BaseController
      * @_GET[limit]
      * @return array
      */
-    public function actionMyorder()
+    public static function Myorder()
     {
         $uid = Yii::$app->user->identity->getId();
         $user = User::findOne($uid);
         $orders = $user->order;
+        $data=[];
         while ($order = current($orders)) {
             $data[] = [
                 'order_id' => $order->order_id,
@@ -91,6 +122,8 @@ class UserController extends BaseController
                 'really_money' => $order->really_money,
                 'gamename' => $order->game['name'],
                 'servername' => $order->server['servername'],
+                'type' => $order->type,
+                'create_time' => $order->create_time,
                 'pay_time' => $order->pay_time,
                 'pay_type' => $order->pay_type,
                 'pay_source' => $order->pay_source,
@@ -99,6 +132,9 @@ class UserController extends BaseController
             ];
             next($orders);
         }
-        return $this->response(200, $data);
+        return static::response(200, $data);
     }
+
+
+
 }

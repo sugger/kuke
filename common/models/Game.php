@@ -44,26 +44,34 @@ class Game extends \common\core\BaseActiveRecord
     const TYPE_APP=1;
     const TYPE_H5=2;
     const TYPE_PC_CLIENT=3;
+    const SHOW_YES=1;
+    const SHOW_NO=0;
+    const OPEN_YES=1;
+    const OPEN_NO=0;
+    const DEL_YES=1;
+    const DEL_NO=0;
+    static $del = self::DEL_NO;
+
+
     public static function tableName()
     {
         return "{{%game}}";
     }
-
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['name', 'game_starttime', 'short', 'gametype', 'gamestyle', 'pic', 'content', 'game_web', 'game_bbs', 'addtime', 'qq', 'desc1', 'remarks', 'is_del'], 'required'],
+            [['name', 'game_starttime', 'short', 'gametype', 'gamestyle', 'pic',  'addtime',  'is_del'], 'required'],
             [['game_starttime'], 'safe'],
-            [['sort', 'gamestyle', 'payto', 'ishot', 'addtime', 'game_hit', 'game_players', 'isdisplay', 'isopen', 'is_del'], 'integer'],
+            [['id','sort', 'gamestyle','gametype', 'payto', 'ishot', 'addtime', 'game_hit', 'game_players', 'isdisplay', 'isopen', 'is_del'], 'integer'],
             [['pic', 'content', 'qq', 'remarks'], 'string'],
             [['name'], 'string', 'max' => 55],
             [['short'], 'string', 'max' => 10],
-            [['gametype', 'currency'], 'string', 'max' => 20],
-            [['game_web', 'game_bbs', 'desc1'], 'string', 'max' => 255],
-            [['game_api', 'game_conf'], 'string', 'max' => 60],
+            [['currency'], 'string', 'max' => 20],
+            [['game_web', 'game_bbs', 'desc1','game_conf'], 'string', 'max' => 255],
+            [['game_api'], 'string', 'max' => 60],
             [['lander'], 'string', 'max' => 254],
         ];
     }

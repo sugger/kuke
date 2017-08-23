@@ -6,11 +6,10 @@ use Yii;
 
 class GameLogin extends CommonGameLogin
 {
-    public function beforeSave($insert)
+    public function beforeValidate()
     {
-        $this->login_time = time();
         $this->ip = ip2long(Yii::$app->request->getUserIP());
-        return parent::beforeSave($insert);
+        return parent::beforeValidate();
     }
 
     public function afterFind()

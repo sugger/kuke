@@ -45,7 +45,17 @@ class ArticleController extends BaseController/*\yii\web\Controller*/
         if (!$id) return $this->response(102002);
         $article=Article::findOne(['id'=>$id,'status'=>Article::ACTIVE_STATUS]);
         if (empty($article)) return $this->response(102003);
-        return $this->response(200,$article);
+        return $this->response(200,[
+            'id'=>$article->id,
+            'title'=>$article->title,
+            'typename'=>$article->articletype,
+            'tag'=>$article->name,
+            'cover'=>PublicController::getImg($article->name),
+            'description'=>$article->description,
+            'content'=>$article->content,
+            'view'=>$article->view,
+            'create_time'=>$article->create_time,
+        ]);
     }
 
 

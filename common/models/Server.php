@@ -11,7 +11,7 @@ namespace common\models;
 /**
  * This is the model class for table "{{%server}}".
  *
- * @property integer $id
+ * @property integer $sid
  * @property integer $gid
  * @property string $servername
  * @property integer $player_num
@@ -24,11 +24,12 @@ namespace common\models;
  * @property string $content
  * @property integer $server_img
  * @property integer $isstop
- * @property string $sid
+ * @property string $serverid
  * @property string $cp_gameid
  * @property string $cp_sid
  * @property integer $is_del
  */
+use common\models\Game;
 class Server extends \common\core\BaseActiveRecord
 {
     const DEL_YES =1;
@@ -49,12 +50,12 @@ class Server extends \common\core\BaseActiveRecord
     public function rules()
     {
         return [
-            [['servername','start_time','start_time_date','sid','cp_sid'],'required','on'=>'savedata'],
-            [['gid', 'servername', 'player_num', 'start_time', 'add_time', 'up_time', 'stop_notice', 'is_display', 'status', 'cp_gameid', 'cp_sid'], 'required'],
-            [['gid', 'player_num', 'start_time', 'add_time', 'up_time', 'is_display', 'status', 'server_img', 'isstop', 'is_del'], 'integer'],
+            [['servername','start_time','start_time_date','serverid','cp_sid'],'required','on'=>'savedata'],
+            [['gid', 'servername', 'player_num', 'start_time', 'add_time', 'up_time', 'is_display', 'status'], 'required'],
+            [['sid','gid', 'player_num', 'start_time', 'add_time', 'up_time', 'is_display', 'status', 'server_img', 'isstop', 'is_del'], 'integer'],
             [['servername'], 'string', 'max' => 50],
             [['stop_notice', 'content'], 'string', 'max' => 255],
-            [['sid', 'cp_gameid', 'cp_sid'], 'string', 'max' => 10],
+            [['serverid', 'cp_gameid', 'cp_sid'], 'string', 'max' => 10],
         ];
     }
     public function beforeValidate()
@@ -69,7 +70,7 @@ class Server extends \common\core\BaseActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'=>'编号',
+            'sid'=>'编号',
             'gid'=>'所属游戏',
             'servername'=>'服务器名称',
             'player_num'=>'玩家数量',
@@ -82,10 +83,13 @@ class Server extends \common\core\BaseActiveRecord
             'content'=>'简介',
             'server_img'=>'图片ID',
             'isstop'=>'是否停服',
-            'sid'=>'本站区服',
+            'serverid'=>'本站区服',
             'cp_gameid'=>'cp游戏ID',
             'cp_sid'=>'cp区服ID',
             'is_del'=>'删除',
         ];
+    }
+    public function getGame(){
+        return Game::findOne($this->gid);
     }
 }

@@ -8,10 +8,11 @@ namespace common\models;
  * @property integer $id
  * @property integer $userid
  * @property integer $gameid
+ * @property integer $serverid
  * @property string $agent
  * @property integer $login_time
  * @property integer $reg_time
- * @property integer $fromflag
+ * @property string $fromflag
  * @property integer $ip
  */
 class GameLogin extends \common\core\BaseActiveRecord
@@ -30,9 +31,8 @@ class GameLogin extends \common\core\BaseActiveRecord
     public function rules()
     {
         return [
-            [['ip', 'userid', 'gameid', 'login_time', 'reg_time', 'fromflag', 'ip'], 'integer'],
-            [['ip'], 'string', 'max' => 18],
-            [['agent'], 'string', 'max' => 30],
+            [['sid','ip', 'userid', 'gameid', 'login_time', 'reg_time', 'ip'], 'integer'],
+            [['agent','fromflag'], 'string', 'max' => 30],
         ];
     }
 

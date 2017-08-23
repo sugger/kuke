@@ -13,10 +13,21 @@ use api\models\Game;
 class GameController extends BaseController
 {
     public function actionGet(){
-        $where=['gid'=>95];
-        return Game::getNotexit($where);
-    }
+        $game=$this->getGameById(95);
 
+    }
+    private function getGameById($id){
+        $game=Game::findOne(['id'=>$id]);
+        if (empty($game)){
+            $mode=new Game();
+            $where=['gid'=>$id];
+            $json= Game::getNotexit($where);
+            $mode->load(['Game'=>$json]);
+            $mode->save();
+            return $mode;
+        }
+        return $game;
+    }
     /**
      * @return string
      */
