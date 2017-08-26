@@ -10,14 +10,17 @@ namespace api\modules\v1\controllers;
 
 use api\controllers\BaseController;
 use api\models\Game;
+
 class GameController extends BaseController
 {
     public function actionGet(){
-        $game=$this->getGameById(95);
+        $game = $this->getGameById(96);
 
     }
-    private function getGameById($id){
-        $game=Game::findOne(['id'=>$id]);
+
+    public static function getGameById($id)
+    {
+        $game = Game::findOne(['id' => $id, 'is_del' => Game::DEL_NO]);
         if (empty($game)){
             $mode=new Game();
             $where=['gid'=>$id];

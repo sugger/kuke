@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-08-23 18:00:25
+-- Generation Time: 2017-08-26 17:51:56
 -- 服务器版本： 10.1.8-MariaDB
 -- PHP Version: 5.6.15
 
@@ -872,7 +872,7 @@ CREATE TABLE IF NOT EXISTS `yii2_game` (
   `remarks` text NOT NULL COMMENT '停服备注',
   `lander` varchar(254) NOT NULL DEFAULT '' COMMENT '是否有微端',
   `is_del` tinyint(2) NOT NULL COMMENT '删除状态'
-) ENGINE=MyISAM AUTO_INCREMENT=96 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=97 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `yii2_game`
@@ -885,7 +885,10 @@ INSERT INTO `yii2_game` (`id`, `name`, `game_starttime`, `short`, `sort`, `gamet
 (5, '测试', '0000-00-00 00:00:00', '', 0, '2', 5, '0', 10, 'asdsa', 1, 'asdsad', 'adssad', '元宝1', 1501494593, 1, 0, 'asdsad', 0, 0, 'asdadsaasdsa', 'asdsadsa', 'dadsadsa', 'das', '', 0),
 (6, '测试', '0000-00-00 00:00:00', '', 0, '2', 5, '0', 10, 'asdsa', 1, 'asdsad', 'adssad', '元宝1', 1501494648, 1, 0, 'asdsad', 0, 0, 'asdadsaasdsa', 'asdsadsa', 'dadsadsa', 'das', '', 1),
 (7, '150', '0000-00-00 00:00:00', '150', 150, '0', 1, '{"pic1":"Public\\/Game\\/20170727\\/20170727298107.png","pic2":"Public\\/Game\\/20170727\\/20170727840623.png","pic3":"Public\\/Game\\/20170727\\/20170727895519.png","pic4":"Public\\/Game\\/20170727\\/20170727385565.png","pic5":"Public\\/Game\\/20170727\\/20170727250256', 100, '', 0, 'jyjy.kukewan.com', '', '元宝', 1500528407, 1, 0, '', 1, 1, '', 'Kuke', '{"game_key":"","game_url":"","game_paykey":"","game_payurl":"","game_id":"0"}', '150', '', 0),
-(95, '九阴九阳', '0000-00-00 00:00:00', 'j', 150, '0', 1, '{"pic1":"Public\\/Game\\/20170727\\/20170727298107.png","pic2":"Public\\/Game\\/20170727\\/20170727840623.png","pic3":"Public\\/Game\\/20170727\\/20170727895519.png","pic4":"Public\\/Game\\/20170727\\/20170727385565.png","pic5":"Public\\/Game\\/20170727\\/20170727250256', 100, '', 0, 'jyjy.kukewan.com', '', '元宝', 1500528407, 1, 0, '', 1, 1, '', 'Kuke', '{"game_key":"0053f613878d33a60c37c62fef8ca0e7","game_url":"","game_paykey":"0053f613878d33a60c37c62fef8ca0e7","game_payurl":"","game_id":"95"}', '150', '', 0);
+(95, '九阴九阳', '0000-00-00 00:00:00', 'j', 150, '0', 1, '{"pic1":"Public\\/Game\\/20170727\\/20170727298107.png","pic2":"Public\\/Game\\/20170727\\/20170727840623.png","pic3":"Public\\/Game\\/20170727\\/20170727895519.png","pic4":"Public\\/Game\\/20170727\\/20170727385565.png","pic5":"Public\\/Game\\/20170727\\/20170727250256', 100, '', 0, 'jyjy.kukewan.com', '', '元宝', 1500528407, 1, 0, '', 1, 1, '', 'Kuke', '{"game_key":"0053f613878d33a60c37c62fef8ca0e7","game_url":"","game_paykey":"0053f613878d33a60c37c62fef8ca0e7","game_payurl":"","game_id":"95"}', '150', '', 0),
+(96, '操戈天下', '0000-00-00 00:00:00', 'c', 200, '0', 1, '{"pic1":"Public\\/Game\\/20170824\\/20170824317263.png","pic2":"Public\\/Game\\/20170824\\/20170824852586.png","pic3":"Public\\/Game\\/20170824\\/20170824775752.png","pic4":"Public\\/Game\\/20170824\\/20170824457742.png","pic5":"Public\\/Game\\/20170824\\/20170824296593', 10, '', 0, '', '', '元宝', 1502250172, 1, 0, '', 1, 1, '', 'Kuke', '{"game_key":"0053f613878d33a60c37c62fef8ca0e7","game_url":"","game_paykey":"0053f613878d33a60c37c62fef8ca0e7","game_payurl":"","game_id":"96"}', '200', '', 0),
+(86, '兵器谱', '0000-00-00 00:00:00', 'j', 141, '0', 1, '{"pic1":"Public\\/Game\\/20170517\\/20170517555429.png","pic2":"Public\\/Game\\/20170517\\/20170517616350.png","pic3":"Public\\/Game\\/20170517\\/20170517573515.png","pic4":"Public\\/Game\\/20170517\\/20170517773498.png","pic5":"Public\\/Game\\/20170517\\/2017051770378.', 10, '剑侠情缘兵器谱西山居正版IP授权,战骑萌宠,丰富社交,跨服战斗,剑侠情缘兵器谱收集天下神兵利器,化解武林危机,拯救天下苍生!', 0, 'jxqy.kukewan.com', '', '', 1494570924, 1, 0, '', 1, 1, '', 'Kuke', '{"game_key":"","game_url":"","game_paykey":"","game_payurl":"","game_id":"86"}', '141', '', 0),
+(92, '乾坤战纪', '0000-00-00 00:00:00', 'q', 140, '0', 1, '{"pic1":"Public\\/Game\\/20170707\\/20170707639155.png","pic2":"Public\\/Game\\/20170707\\/2017070767229.png","pic3":"Public\\/Game\\/20170707\\/20170707811883.png","pic4":"Public\\/Game\\/20170707\\/20170707634124.png","pic5":"Public\\/Game\\/20170707\\/20170707677286.', 10, '', 1, 'qkzj.kukewan.com/', '', '', 1498874255, 1, 0, '', 1, 1, '', 'Kuke', '{"game_key":"","game_url":"","game_paykey":"","game_payurl":"","game_id":"92"}', '140', '', 0);
 
 -- --------------------------------------------------------
 
@@ -903,7 +906,7 @@ CREATE TABLE IF NOT EXISTS `yii2_game_login` (
   `reg_time` int(11) unsigned DEFAULT NULL COMMENT '注册时间',
   `fromflag` varchar(30) DEFAULT '' COMMENT '用户来源',
   `ip` bigint(20) unsigned DEFAULT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='游戏登录日志表';
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='游戏登录日志表';
 
 --
 -- 转存表中的数据 `yii2_game_login`
@@ -913,7 +916,38 @@ INSERT INTO `yii2_game_login` (`id`, `userid`, `gameid`, `sid`, `agent`, `login_
 (1, 1, 1, 1, 'default', 0, 0, '0', 0),
 (2, 86479, 95, 3210, '0', 1503480747, 1503479707, 'kukewan', 2130706433),
 (3, 86479, 95, 3245, '0', 1503481478, 1503481455, 'kukewan', 2130706433),
-(4, 86479, 95, 3246, '0', 1503481488, 1503481488, 'kukewan', 2130706433);
+(4, 86479, 95, 3246, '0', 1503481488, 1503481488, 'kukewan', 2130706433),
+(5, 86479, 95, 3210, '0', 1503543784, 1503479707, 'kukewan', 2130706433),
+(6, 86479, 96, 3282, '0', 1503546024, 1503544307, 'kukewan', 2130706433),
+(7, 86479, 86, 2972, '0', 1503546777, 1503546749, 'kukewan', 2130706433),
+(8, 86479, 92, 3141, '0', 1503546804, 1503546804, 'kukewan', 2130706433);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `yii2_game_role`
+--
+
+CREATE TABLE IF NOT EXISTS `yii2_game_role` (
+  `id` int(11) NOT NULL COMMENT 'ID',
+  `uid` int(11) NOT NULL,
+  `sid` int(11) NOT NULL,
+  `gid` smallint(6) NOT NULL,
+  `role` varchar(50) COLLATE utf8mb4_bin NOT NULL COMMENT '角色名',
+  `level` int(11) NOT NULL COMMENT '等级',
+  `roleid` varchar(64) COLLATE utf8mb4_bin NOT NULL COMMENT '角色ID',
+  `create_time` datetime NOT NULL,
+  `up_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `extend` text COLLATE utf8mb4_bin NOT NULL COMMENT '拓展信息',
+  `from_social` varchar(30) COLLATE utf8mb4_bin NOT NULL COMMENT '用户渠道标识'
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='游戏角色日志表';
+
+--
+-- 转存表中的数据 `yii2_game_role`
+--
+
+INSERT INTO `yii2_game_role` (`id`, `uid`, `sid`, `gid`, `role`, `level`, `roleid`, `create_time`, `up_time`, `extend`, `from_social`) VALUES
+(1, 86479, 3141, 92, '猎天玺越', 49, '', '2017-08-24 15:44:33', '2017-08-24 15:55:42', '{"sex":"m","combat":"13676"}', 'kukewan');
 
 -- --------------------------------------------------------
 
@@ -1336,13 +1370,56 @@ CREATE TABLE IF NOT EXISTS `yii2_page` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `yii2_patrner_users`
+-- 表的结构 `yii2_partner_game`
 --
 
-CREATE TABLE IF NOT EXISTS `yii2_patrner_users` (
+CREATE TABLE IF NOT EXISTS `yii2_partner_game` (
+  `id` int(11) NOT NULL,
+  `partnerid` int(11) NOT NULL COMMENT '合作者ID',
+  `gid` int(11) NOT NULL,
+  `gkey` varchar(10) COLLATE utf8mb4_bin NOT NULL COMMENT '游戏标识',
+  `status` tinyint(1) NOT NULL COMMENT '0关闭，1正常，2关闭充值',
+  `rate` float(4,3) NOT NULL COMMENT '分成比例',
+  `totalmoney` float(10,2) NOT NULL COMMENT '充值总额',
+  `lkey` char(32) COLLATE utf8mb4_bin NOT NULL COMMENT '登录KEY',
+  `pkey` char(32) COLLATE utf8mb4_bin NOT NULL COMMENT '充值KEY',
+  `auto_server` tinyint(1) NOT NULL DEFAULT '1' COMMENT '自动添加区服',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `up_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `url_web` varchar(250) COLLATE utf8mb4_bin NOT NULL COMMENT '官网地址',
+  `url_pay` varchar(250) COLLATE utf8mb4_bin NOT NULL COMMENT '充值地址',
+  `url_fcm` varchar(250) COLLATE utf8mb4_bin NOT NULL COMMENT '防沉迷地址',
+  `url_bbs` varchar(250) COLLATE utf8mb4_bin NOT NULL COMMENT '论坛地址',
+  `url_kefu` varchar(250) COLLATE utf8mb4_bin NOT NULL COMMENT '客服地址',
+  `url_client` varchar(250) COLLATE utf8mb4_bin NOT NULL COMMENT '微端下载地址'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='合作者游戏对应表';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `yii2_partner_server`
+--
+
+CREATE TABLE IF NOT EXISTS `yii2_partner_server` (
+  `id` int(11) NOT NULL,
+  `sid` int(11) NOT NULL COMMENT '区服表主键',
+  `pserverid` int(11) NOT NULL COMMENT '合作者接口区服号',
+  `gid` int(11) NOT NULL COMMENT '游戏在本站的ID',
+  `status` tinyint(1) NOT NULL COMMENT '0关闭，1开启，2仅登录',
+  `pid` int(11) NOT NULL COMMENT '合作者ID'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='合作者区服对应关系表';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `yii2_partner_users`
+--
+
+CREATE TABLE IF NOT EXISTS `yii2_partner_users` (
   `id` int(11) NOT NULL,
   `username` varchar(30) NOT NULL COMMENT '推广用户名',
-  `pid` int(8) NOT NULL COMMENT '上级推广id',
+  `parentid` int(8) NOT NULL COMMENT '上级推广id',
+  `domain` varchar(100) NOT NULL COMMENT '域名',
   `password` varchar(50) NOT NULL COMMENT '密码',
   `type` enum('1','2','3','4','0') NOT NULL DEFAULT '0' COMMENT '1混服，2CPS，3广告，4玩家',
   `bankaccount` varchar(100) NOT NULL COMMENT '银行账户',
@@ -1354,21 +1431,27 @@ CREATE TABLE IF NOT EXISTS `yii2_patrner_users` (
   `lastlogin_ip` varchar(30) NOT NULL COMMENT '最近登录ip',
   `available_money` double(10,2) NOT NULL COMMENT '预支的金额',
   `money` double(10,2) NOT NULL COMMENT '可用金额',
+  `rate` float(4,3) NOT NULL COMMENT '默认分成比例',
+  `lkey` char(32) NOT NULL COMMENT '默认登录Key',
+  `pkey` char(32) NOT NULL COMMENT '默认充值Key',
   `admin_username` char(30) NOT NULL COMMENT '所属专员',
   `totalmoney` double(10,2) NOT NULL COMMENT '总共推广金额',
   `status` int(2) NOT NULL DEFAULT '1' COMMENT '状态',
   `pay_tag` char(50) NOT NULL COMMENT '所属银行',
   `tel` varchar(50) NOT NULL COMMENT '联系方式',
   `email` varchar(100) NOT NULL COMMENT '邮箱',
-  `qq` varchar(20) NOT NULL COMMENT 'qq'
+  `qq` varchar(20) NOT NULL COMMENT 'qq',
+  `api_ip` text NOT NULL COMMENT '接口列表、IP白名单',
+  `callback` varchar(250) NOT NULL COMMENT '同步回调地址',
+  `notify` varchar(250) NOT NULL COMMENT '异步通知地址'
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
--- 转存表中的数据 `yii2_patrner_users`
+-- 转存表中的数据 `yii2_partner_users`
 --
 
-INSERT INTO `yii2_patrner_users` (`id`, `username`, `pid`, `password`, `type`, `bankaccount`, `realname`, `number_id`, `remark`, `register_time`, `lastlogin_time`, `lastlogin_ip`, `available_money`, `money`, `admin_username`, `totalmoney`, `status`, `pay_tag`, `tel`, `email`, `qq`) VALUES
-(1, 'cps001', 0, '###27570b609485852fb400589afef5d011', '1', '', '', '', '系统默认推广员', 1450505425, 1494386298, '221.220.250.13', 12.00, 0.00, 'admin', 0.00, 1, '', '15222291959', '27102916@qq.com', '');
+INSERT INTO `yii2_partner_users` (`id`, `username`, `parentid`, `domain`, `password`, `type`, `bankaccount`, `realname`, `number_id`, `remark`, `register_time`, `lastlogin_time`, `lastlogin_ip`, `available_money`, `money`, `rate`, `lkey`, `pkey`, `admin_username`, `totalmoney`, `status`, `pay_tag`, `tel`, `email`, `qq`, `api_ip`, `callback`, `notify`) VALUES
+(1, 'cps001', 0, 'www.kukewan.com', '###27570b609485852fb400589afef5d011', '1', '123', '123', '123', '系统默认推广员', 1450505425, 1494386298, '221.220.250.13', 12.00, 0.00, 0.650, 'LkeyLkeyLkey', 'PkeyPkeyPkey', 'admin', 0.00, 1, 'Pay Tag', '15222291959', '295729766@qq.com', '295729766', '{"ip":["192.168.1.1","127.0.0.1"],"api":[]}', 'http://www.kukewan.com/Callback', 'http://www.kukewan.com/Notify');
 
 -- --------------------------------------------------------
 
@@ -4978,7 +5061,7 @@ CREATE TABLE IF NOT EXISTS `yii2_server` (
   `cp_gameid` varchar(10) COLLATE utf8mb4_bin NOT NULL COMMENT '联运游戏id',
   `cp_sid` varchar(10) COLLATE utf8mb4_bin NOT NULL COMMENT '联运区服ID',
   `is_del` tinyint(2) DEFAULT '0' COMMENT '1-删除'
-) ENGINE=MyISAM AUTO_INCREMENT=3247 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='区服表';
+) ENGINE=MyISAM AUTO_INCREMENT=3283 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='区服表';
 
 --
 -- 转存表中的数据 `yii2_server`
@@ -4992,7 +5075,10 @@ INSERT INTO `yii2_server` (`sid`, `gid`, `servername`, `player_num`, `start_time
 (3210, 95, '双线1区', 0, 1501135200, 1500604161, 0, '', 1, 1, '', 0, 0, '1', '', '', 0),
 (3244, 95, '双线3区', 0, 1501308000, 1501219519, 0, '', 1, 1, '', 0, 0, '3', '', '', 0),
 (3245, 95, '双线4区', 0, 1501480800, 1501219744, 0, '', 1, 1, '', 0, 0, '4', '', '', 0),
-(3246, 95, '双线5区', 0, 1501567200, 1501219763, 0, '', 1, 1, '', 0, 0, '5', '', '', 0);
+(3246, 95, '双线5区', 0, 1501567200, 1501219763, 0, '', 1, 1, '', 0, 0, '5', '', '', 0),
+(3282, 96, '双线1区', 0, 1503554400, 1502250216, 0, '', 1, 1, '', 0, 0, '1', '', '', 0),
+(2972, 86, '双线1区', 0, 1495172400, 1494582016, 0, '', 1, 1, '', 0, 0, '1', '', '', 0),
+(3141, 92, '双线1区', 0, 1499742000, 1498874453, 0, '', 1, 1, '', 0, 0, '1', '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -5028,7 +5114,7 @@ CREATE TABLE IF NOT EXISTS `yii2_user` (
   `reg_ip` bigint(20) NOT NULL DEFAULT '0' COMMENT '注册IP',
   `last_login_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后登录时间',
   `last_login_ip` bigint(20) NOT NULL DEFAULT '0' COMMENT '最后登录IP',
-  `update_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `tuid` int(8) unsigned NOT NULL DEFAULT '0' COMMENT '推荐人uid',
   `image` varchar(255) NOT NULL DEFAULT '' COMMENT '头像路径',
   `score` int(8) unsigned NOT NULL DEFAULT '0' COMMENT '当前积分',
@@ -5036,7 +5122,7 @@ CREATE TABLE IF NOT EXISTS `yii2_user` (
   `reg_gameid` int(5) unsigned NOT NULL COMMENT '注册游戏',
   `reg_serverid` int(10) unsigned NOT NULL COMMENT '注冊区服',
   `status` tinyint(4) DEFAULT '0' COMMENT '用户状态 1正常 0禁用'
-) ENGINE=MyISAM AUTO_INCREMENT=86480 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=MyISAM AUTO_INCREMENT=500000000 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 --
 -- 转存表中的数据 `yii2_user`
@@ -5220,6 +5306,17 @@ ALTER TABLE `yii2_game_login`
   ADD KEY `login_time` (`login_time`);
 
 --
+-- Indexes for table `yii2_game_role`
+--
+ALTER TABLE `yii2_game_role`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `index` (`role`),
+  ADD KEY `role` (`role`),
+  ADD KEY `uid` (`uid`),
+  ADD KEY `uid_2` (`uid`,`sid`,`role`),
+  ADD KEY `roleid` (`roleid`);
+
+--
 -- Indexes for table `yii2_game_type`
 --
 ALTER TABLE `yii2_game_type`
@@ -5329,9 +5426,23 @@ ALTER TABLE `yii2_page`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `yii2_patrner_users`
+-- Indexes for table `yii2_partner_game`
 --
-ALTER TABLE `yii2_patrner_users`
+ALTER TABLE `yii2_partner_game`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `gkey` (`gkey`),
+  ADD KEY `patrnerid` (`partnerid`);
+
+--
+-- Indexes for table `yii2_partner_server`
+--
+ALTER TABLE `yii2_partner_server`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `yii2_partner_users`
+--
+ALTER TABLE `yii2_partner_users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`);
 
@@ -5450,12 +5561,17 @@ ALTER TABLE `yii2_config`
 -- AUTO_INCREMENT for table `yii2_game`
 --
 ALTER TABLE `yii2_game`
-  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT COMMENT '游戏id',AUTO_INCREMENT=96;
+  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT COMMENT '游戏id',AUTO_INCREMENT=97;
 --
 -- AUTO_INCREMENT for table `yii2_game_login`
 --
 ALTER TABLE `yii2_game_login`
-  MODIFY `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',AUTO_INCREMENT=5;
+  MODIFY `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT for table `yii2_game_role`
+--
+ALTER TABLE `yii2_game_role`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `yii2_game_type`
 --
@@ -5517,9 +5633,19 @@ ALTER TABLE `yii2_order`
 ALTER TABLE `yii2_page`
   MODIFY `id` int(8) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `yii2_patrner_users`
+-- AUTO_INCREMENT for table `yii2_partner_game`
 --
-ALTER TABLE `yii2_patrner_users`
+ALTER TABLE `yii2_partner_game`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `yii2_partner_server`
+--
+ALTER TABLE `yii2_partner_server`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `yii2_partner_users`
+--
+ALTER TABLE `yii2_partner_users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `yii2_picture`
@@ -5530,7 +5656,7 @@ ALTER TABLE `yii2_picture`
 -- AUTO_INCREMENT for table `yii2_server`
 --
 ALTER TABLE `yii2_server`
-  MODIFY `sid` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3247;
+  MODIFY `sid` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3283;
 --
 -- AUTO_INCREMENT for table `yii2_tag`
 --
@@ -5540,7 +5666,7 @@ ALTER TABLE `yii2_tag`
 -- AUTO_INCREMENT for table `yii2_user`
 --
 ALTER TABLE `yii2_user`
-  MODIFY `uid` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户ID',AUTO_INCREMENT=86480;
+  MODIFY `uid` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户ID',AUTO_INCREMENT=500000000;
 --
 -- AUTO_INCREMENT for table `yii2_user_rank`
 --

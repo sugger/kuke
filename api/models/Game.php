@@ -3,21 +3,6 @@
 namespace api\models;
 class Game extends \common\models\Game
 {
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return parent::rules();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return parent::attributeLabels();
-    }
     public static function getNotexit($where){
         $where['table']='game';
         $time=time();
@@ -76,12 +61,28 @@ class Game extends \common\models\Game
                 'game_url'=>$return['data']['game_url'],
                 'game_paykey'=>$return['data']['game_paykey'],
                 'game_payurl'=>$return['data']['game_payurl'],
-                'game_id'=>$return['data']['p_id'],
+                'game_id' => $return['data']['p_id'] ? $return['data']['p_id'] : $return['data']['gid'],
             ]) ,
             'remarks' => $return['data']['sort'],
             'lander' => '',
             'is_del' => '0',
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return parent::rules();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return parent::attributeLabels();
     }
 
 }
