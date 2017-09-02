@@ -23,8 +23,7 @@ class PartnerUser extends \common\models\PartnerUsers
         $api_ip = json_decode($this->api_ip, true);
         if ($ip && (empty($api_ip['ip']) || !is_array($api_ip['ip']) || in_array($ip, $api_ip['ip'])))
             return ['status' => false, 'msg' => 'IP禁止访问'];
-
-        if ($api && (empty($api_ip['api']) || !is_array($api_ip['api']) || in_array($api, $api_ip['api'])))
+        if ((empty($api_ip['api']) || !is_array($api_ip['api']) || !in_array($api, $api_ip['api'])))
             return ['status' => false, 'msg' => '接口禁止访问'];
         return ['status' => true];
     }

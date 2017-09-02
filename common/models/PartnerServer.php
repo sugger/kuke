@@ -14,6 +14,9 @@ namespace common\models;
  */
 class PartnerServer extends \common\core\BaseActiveRecord
 {
+    const STATUS_ACTIVE = 1;
+    const STATUS_DISABLE = 0;
+    const STATUS_ONLY_LOGIN = 2;
     /**
      * @inheritdoc
      */

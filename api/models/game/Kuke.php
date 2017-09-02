@@ -4,13 +4,13 @@ use common\core\GameApiInterface;
 
 class Kuke extends BaseGame  implements GameApiInterface{
 
-
     public static $roleAttr = [
         'role' => ['name' => '角色名', 'description' => '区服内唯一标识，一个区内统一角色名不能重复'],
         'level' => ['name' => '角色等级', 'description' => ''],
         'sex' => ['name' => '角色性别', 'description' => '男、女'],
         'combat' => ['name' => '战斗力', 'description' => '战斗力越高越牛逼！'],
     ];
+    public $a;
 
     public static function LoginUrl($info)
     {
@@ -21,7 +21,7 @@ class Kuke extends BaseGame  implements GameApiInterface{
         $appid=$info['appid']?$info['appid']:$conf['game_id'];//gkey
         $serverid = $info['serverid'];
         $timestamp=time();
-//        if (!$sid || !$key|| !$url || !$appid)return ['status'=>0,'error'=>"接口内部错误"];
+        if (!$serverid || !$key || !$url || !$appid) return ['status' => 0, 'error' => "接口内部错误"];
         if (!$serverid || !$appid) return ['status' => 0, 'error' => "接口内部错误"];
         /**酷客玩不验证url**/
 
@@ -61,10 +61,10 @@ class Kuke extends BaseGame  implements GameApiInterface{
         $url = $info['url'] ? $info['url'] : $conf['game_url'];
         $key = $info['key'] ? $info['key'] : $conf['game_key'];
         $appid = $info['appid'] ? $info['appid'] : $conf['game_id'];//gkey
-        $sid = $info['sid'];
+        $serverid = $info['serverid'];
         $timestamp = time();
 //        if (!$sid || !$key|| !$url || !$appid)return ['status'=>0,'error'=>"接口内部错误"];
-        if (!$sid || !$appid) return ['status' => 0, 'error' => "接口内部错误"];
+        if (!$serverid || !$appid) return ['status' => 0, 'error' => "接口内部错误"];
         /**酷客玩不验证url**/
         $where['table'] = 'server';
         $where['username'] = $info['username'];

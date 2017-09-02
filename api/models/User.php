@@ -45,6 +45,77 @@ class User extends \common\models\User implements IdentityInterface, RateLimitIn
         return $user;
     }
 
+    public static function getNotexit($where)
+    {
+        $where['table'] = 'member';
+        $time = time();
+        $apiurl = "http://mix.kukewan.com/newsiteapi/getdata&t={$time}&ccc=" . md5($time . 'newsite');
+        $data_string = json_encode($where);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_URL, $apiurl);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($data_string))
+        );
+        $content = curl_exec($ch);
+        curl_close($ch);
+        $return = json_decode($content, true);
+        if ($return['status'] != 1) return false;
+
+        //获取拓展信息
+        unset($where);
+        $where['table'] = 'member_extend_info';
+        $where['uid'] = $return['data']['uid'];
+        $time = time();
+        $apiurl = "http://mix.kukewan.com/newsiteapi/getdata&t={$time}&ccc=" . md5($time . 'newsite');
+        $data_string = json_encode($where);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_URL, $apiurl);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($data_string))
+        );
+        $content = curl_exec($ch);
+        curl_close($ch);
+        $return1 = json_decode($content, true);
+        if ($return['status'] != 1) return false;
+
+
+        return [
+            'uid' => $return['data']['uid'],
+            'username' => $return['data']['username'],
+            'password' => 'noKnow',
+            'nickname' => $return['data']['nickname'],
+            'salt' => 'noKnow',
+            'email' => $return['data']['email'],
+            'mobile' => 'noKnow',
+            'idcard' => $return['data']['id_card'],
+            'money' => '0',
+            'total_money' => $return['data']['total_money'],
+            'from_social' => 'kukewan',
+            'reg_time' => $return1['data']['register_time'],
+            'reg_ip' => ip2long($return1['data']['register_ip']),
+            'last_login_time' => $return1['data']['lastlogin_time'],
+            'last_login_ip' => ip2long($return1['data']['lastlogin_ip']),
+            'update_time' => date('Y-m-d H:i:s'),
+            'tuid' => $return1['data']['sub_channels'],
+            'image' => $return['data']['avatar'] ? 'http://www.kukewan.com/' . $return['data']['avatar'] : '',
+            'score' => (int)$return['data']['point'],
+            'score_all' => (int)$return['data']['total_money'],
+            'reg_gameid' => 0,
+            'reg_serverid' => 0,
+            'status' => 1,
+        ];
+    }
+
     /**
      * ---------------------------------------
      * 由token获取用户信息
@@ -66,15 +137,23 @@ class User extends \common\models\User implements IdentityInterface, RateLimitIn
      * @param string $username
      * @return static|null
      */
-    public static function findByUsername($username)
+    public static function findByUsername($username, $extend = [])
     {
         $user=static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
         if (empty($user)){
             $user=static::getNotexit(['username' => $username]);
-            $new=new User();
-            $new->load(['User'=>$user]);
-            $new->save(false);
-            $user=$new->findOne($user['uid']);
+            if ($user) {
+                if ($extend) {
+                    foreach ($extend as $k => $v) {
+                        $user[$k] = $v;
+                    }
+                }
+                $new = new User();
+                $new->load(['User' => $user]);
+                $new->save(false);
+
+                $user = $new->findOne($user['uid']);
+            }
         }
         return $user;
     }
@@ -85,7 +164,6 @@ class User extends \common\models\User implements IdentityInterface, RateLimitIn
         unset($fields['password'], $fields['salt']);
         return $fields;
     }
-
 
     /**
      * ---------------------------------------
@@ -139,7 +217,7 @@ class User extends \common\models\User implements IdentityInterface, RateLimitIn
      */
     public function validatePassword($password)
     {
-        if ($this->password===''&&$this->from_social=='kukewan'){
+        if ($this->password === 'noKnow' && $this->from_social == 'kukewan') {
             $apiurl='http://www.kukewan.com/accounts/checklogin';
             $ch=curl_init();
             curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
@@ -172,12 +250,6 @@ class User extends \common\models\User implements IdentityInterface, RateLimitIn
         $this->salt = Yii::$app->security->generateRandomString();
         return $this->getAuthKey();
     }
-
-    public function removeAuthKey()
-    {
-        $this->salt = '';
-        return $this;
-    }
     /**
      * --------------------------------------------------------------
      * 实现RateLimitInterface
@@ -186,6 +258,12 @@ class User extends \common\models\User implements IdentityInterface, RateLimitIn
      * 资料参考：http://www.yiichina.com/doc/guide/2.0/rest-rate-limiting
      * --------------------------------------------------------------
      */
+
+    public function removeAuthKey()
+    {
+        $this->salt = '';
+        return $this;
+    }
 
     /**
      * ---------------------------------------
@@ -227,77 +305,6 @@ class User extends \common\models\User implements IdentityInterface, RateLimitIn
 //        $this->allowance = $allowance;
 //        $this->allowance_updated_at = $timestamp;
 //        $this->save();
-    }
-
-    public static function getNotexit($where){
-        $where['table']='member';
-        $time=time();
-        $apiurl="http://mix.kukewan.com/newsiteapi/getdata&t={$time}&ccc=".md5($time.'newsite');
-        $data_string=json_encode($where);
-        $ch=curl_init();
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-        curl_setopt($ch,CURLOPT_POST,1);
-        curl_setopt($ch,CURLOPT_URL,$apiurl);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                'Content-Type: application/json',
-                'Content-Length: ' . strlen($data_string))
-        );
-        $content=curl_exec($ch);
-        curl_close($ch);
-        $return=json_decode($content,true);
-        if ($return['status']!=1)return false;
-
-        //获取拓展信息
-        unset($where);
-        $where['table']='member_extend_info';
-        $where['uid']=$return['data']['uid'];
-        $time=time();
-        $apiurl="http://mix.kukewan.com/newsiteapi/getdata&t={$time}&ccc=".md5($time.'newsite');
-        $data_string=json_encode($where);
-        $ch=curl_init();
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-        curl_setopt($ch,CURLOPT_POST,1);
-        curl_setopt($ch,CURLOPT_URL,$apiurl);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                'Content-Type: application/json',
-                'Content-Length: ' . strlen($data_string))
-        );
-        $content=curl_exec($ch);
-        curl_close($ch);
-        $return1=json_decode($content,true);
-        if ($return['status']!=1)return false;
-
-
-
-        return [
-            'uid'=>$return['data']['uid'],
-            'username'=>$return['data']['username'],
-            'password'=>'',
-            'nickname'=>$return['data']['nickname'],
-            'salt'=>'',
-            'email'=>$return['data']['email'],
-            'mobile'=>$return['data']['email'],
-            'idcard'=>$return['data']['id_card'],
-            'money'=>'0',
-            'total_money'=>$return['data']['total_money'],
-            'from_social'=>'kukewan',
-            'reg_time'=>$return1['data']['register_time'],
-            'reg_ip'=>ip2long($return1['data']['register_ip']),
-            'last_login_time'=>$return1['data']['lastlogin_time'],
-            'last_login_ip'=>ip2long($return1['data']['lastlogin_ip']),
-            'update_time'=>date('Y-m-d H:i:s'),
-            'tuid'=>$return1['data']['sub_channels'],
-            'image'=>$return['data']['avatar']?'http://www.kukewan.com/'.$return['data']['avatar']:'',
-            'score'=>$return['data']['point'],
-            'score_all'=>$return['data']['total_money'],
-            'reg_gameid'=>0,
-            'reg_serverid'=>0,
-            'status'=>1,
-        ];
     }
 
 

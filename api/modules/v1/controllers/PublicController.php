@@ -10,13 +10,24 @@
 namespace api\modules\v1\controllers;
 
 use api\controllers\BaseController;
+use api\models\Picture;
 use api\models\User;
 use common\helpers\StringHelper;
-use Yii;
-use api\models\Picture;
 use common\models\Ad;
+use Yii;
+
 class PublicController extends BaseController
 {
+    public static function Log($desc, $content, $rprefix = '')
+    {
+        $path = Yii::$aliases['@runtime'] . "/apilog/" . date('ymd') . $rprefix . '.txt';
+        if (is_array($content)) {
+            $content = json_encode($content);
+        }
+        $content = rtrim($content);
+        file_put_contents($path, $desc . "\t" . date('Y-m-d H:i:s') . "\t" . $content . "\r\n", FILE_APPEND);
+    }
+
     public function actionImg(){
         $id=Yii::$app->request->get('id',0);
         if (empty($id)) return $this->response(11006);
@@ -24,6 +35,15 @@ class PublicController extends BaseController
         if (empty($pic)) return $this->response(11007);
         return $this->response(200,['path'=>$pic->path]);
     }
+
+    public static function getImg($id)
+    {
+        $pic = Picture::findOne($id);
+        if (empty($pic)) return false;
+        return $pic->path;
+
+    }
+
     public function actionBanner(){
         $id=Yii::$app->request->get('cateid');
         if (!$id) $this->response(11008);
@@ -33,12 +53,7 @@ class PublicController extends BaseController
             return $data;
         },$banner));
     }
-    public static function getImg($id){
-        $pic=Picture::findOne($id);
-        if (empty($pic)) return false;
-        return $pic->path;
 
-    }
     /**
      * @return array
      * todo 没有加暴力破解

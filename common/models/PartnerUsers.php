@@ -30,6 +30,7 @@ namespace common\models;
  * @property string $tel
  * @property string $email
  * @property string $qq
+ * @property string $test_account
  * @property string $api_ip
  * @property string $callback
  * @property string $notify
@@ -92,7 +93,7 @@ class PartnerUsers extends \common\core\BaseActiveRecord
             [['available_money', 'money', 'rate', 'totalmoney'], 'number'],
             [['username', 'realname', 'lastlogin_ip', 'admin_username'], 'string', 'max' => 30],
             [['domain', 'bankaccount', 'email'], 'string', 'max' => 100],
-            [['password', 'number_id', 'pay_tag', 'tel'], 'string', 'max' => 50],
+            [['password', 'number_id', 'pay_tag', 'tel', 'test_account'], 'string', 'max' => 50],
             [['remark'], 'string', 'max' => 255],
             [['lkey', 'pkey'], 'string', 'max' => 32],
             [['qq'], 'string', 'max' => 20],
@@ -131,6 +132,7 @@ class PartnerUsers extends \common\core\BaseActiveRecord
             'tel' => 'Tel',
             'email' => 'Email',
             'qq' => 'Qq',
+            'test_account' => 'Test Account',
             'api_ip' => 'Api Ip',
             'callback' => 'Callback',
             'notify' => 'Notify',

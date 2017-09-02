@@ -116,6 +116,39 @@ class ServerController extends BaseController
         return $server;
     }
 
+    public static function GameUrl($info, $tag = null)
+    {
+        if (is_object($tag)) return $tag->LoginUrl($info);
+        elseif (is_string($tag)) { //tag游戏接口类全名
+            if (!strstr("api\\models\\game\\", $tag)) $tag = "api\\models\\game\\" . $tag;
+            if (!class_exists($tag)) return ['status' => 0, 'error' => $tag . "类文件不存在"];
+            return $tag::LoginUrl($info);
+        } elseif (is_null($tag) && $info['gid']) { //没有指定接口，查询db中的游戏接口
+            $tag = Game::findOne($info['gid']);
+            //没有指定游戏配置，把查到游戏配置数据放传给接口
+            if (!isset($info['game_conf'])) $info['game_conf'] = $tag['game_conf'];
+            if (!$tag || !$tag['game_api']) return ['status' => 0, 'error' => "GId为{$info['gid']}的游戏不存在，或游戏接口未指定"];
+            $tag = "api\\models\\game\\" . $tag['game_api'];
+            if (!class_exists($tag)) return ['status' => 0, 'error' => $tag . "类文件不存在"];;
+            return $tag::LoginUrl($info);
+        }
+        return ['status' => 0, 'error' => "\$tag类型错误"];
+    }
+
+    /*
+    * @var $tag api\models\game\Kuke;
+    * @param $info['username']
+    * @param $info['uid']
+    * @param $info['appid'] 接口所需
+    * @param $info['sid'] 区服ID
+    * @param $info['url'] 至少指定url和game_conf中的一个
+    * @param $info['key'] 至少指定key和game_conf中的一个
+    * @param $info['client'] 默认web端
+    * @param $tag 接口文件(类实例、全名、null) 为null必须指定gid
+    * @param $info['game_conf']
+    * @param $info['gid']
+    */
+
     /**
      * @param $gid
      * @param $sid
@@ -143,20 +176,6 @@ class ServerController extends BaseController
         return false;
     }
 
-    /*
-    * @var $tag api\models\game\Kuke;
-    * @param $info['username']
-    * @param $info['uid']
-    * @param $info['appid'] 接口所需
-    * @param $info['sid'] 区服ID
-    * @param $info['url'] 至少指定url和game_conf中的一个
-    * @param $info['key'] 至少指定key和game_conf中的一个
-    * @param $info['client'] 默认web端
-    * @param $tag 接口文件(类实例、全名、null) 为null必须指定gid
-    * @param $info['game_conf']
-    * @param $info['gid']
-    */
-
     /**
      * @param $serverid 服务器ID
      */
@@ -183,9 +202,9 @@ class ServerController extends BaseController
             $info['uid'] = $user['uid'];
             $info['username'] = $user['username'];
             $info['appid'] = $server->cp_gameid ? $server->cp_gameid : $gameconf['game_id'];
-            $info['sid'] = $server->cp_sid ? $server->cp_sid : $server->serverid;
-            $info['url'] = $gameconf['game_url'];
-            $info['key'] = $gameconf['game_key'];
+            $info['serverid'] = $server->cp_sid ? $server->cp_sid : $server->serverid;
+            $info['url'] = $gameconf['role_url'];
+            $info['key'] = $gameconf['role_key'] ? $gameconf['role_key'] : $gameconf['game_key'];
             $info['game_conf'] = $game->game_conf;
             $info['gid'] = $game->id;
             unset($gameconf);
@@ -258,25 +277,6 @@ class ServerController extends BaseController
         $urldata = self::GameUrl($map, 'Kuke');
         var_dump($urldata);
 //        return $this->response(200,['MSG'=>'服务器接口']);
-    }
-
-    public static function GameUrl($info, $tag = null)
-    {
-        if (is_object($tag)) return $tag->LoginUrl($info);
-        elseif (is_string($tag)) { //tag游戏接口类全名
-            if (!strstr("api\\models\\game\\", $tag)) $tag = "api\\models\\game\\" . $tag;
-            if (!class_exists($tag)) return ['status' => 0, 'error' => $tag . "类文件不存在"];
-            return $tag::LoginUrl($info);
-        } elseif (is_null($tag) && $info['gid']) { //没有指定接口，查询db中的游戏接口
-            $tag = Game::findOne($info['gid']);
-            //没有指定游戏配置，把查到游戏配置数据放传给接口
-            if (!isset($info['game_conf'])) $info['game_conf'] = $tag['game_conf'];
-            if (!$tag || !$tag['game_api']) return ['status' => 0, 'error' => "GId为{$info['gid']}的游戏不存在，或游戏接口未指定"];
-            $tag = "api\\models\\game\\" . $tag['game_api'];
-            if (!class_exists($tag)) return ['status' => 0, 'error' => $tag . "类文件不存在"];;
-            return $tag::LoginUrl($info);
-        }
-        return ['status' => 0, 'error' => "\$tag类型错误"];
     }
 
     public function actionTuijian()
