@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\models\PartnerGame */
 
-$this->title = 'Update Partner Game: ' . $model->id;
+$this->title = '修改['.$partner->username .']的游戏:[' . $model->gamename .']';
 $this->params['breadcrumbs'][] = ['label' => 'Partner Games', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
@@ -16,6 +16,8 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'partner'=> $partner,
+        'game'=>$game
     ]) ?>
 
 </div>

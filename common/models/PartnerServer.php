@@ -43,11 +43,11 @@ class PartnerServer extends \common\core\BaseActiveRecord
     {
         return [
             'id' => 'ID',
-            'sid' => 'Sid',
-            'pserverid' => 'Pserverid',
-            'gid' => 'Gid',
-            'status' => 'Status',
-            'pid' => 'Pid',
+            'sid' => '本站区服',
+            'pserverid' => '混服ID号',
+            'gid' => '游戏',
+            'status' => '状态',
+            'pid' => '所属混服',
         ];
     }
 }

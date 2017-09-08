@@ -47,7 +47,7 @@ class PartnerGame extends \common\core\BaseActiveRecord
     public function rules()
     {
         return [
-            [['partnerid', 'gid', 'gkey', 'status', 'rate', 'totalmoney', 'lkey', 'pkey', 'url_web', 'url_pay', 'url_fcm', 'url_bbs', 'url_kefu', 'url_client'], 'required'],
+            [['partnerid', 'gid', 'gkey', 'status', 'url_web', 'url_pay'], 'required'],
             [['partnerid', 'gid', 'status', 'auto_server'], 'integer'],
             [['rate', 'totalmoney'], 'number'],
             [['create_time', 'up_time'], 'safe'],
@@ -64,23 +64,24 @@ class PartnerGame extends \common\core\BaseActiveRecord
     {
         return [
             'id' => 'ID',
-            'partnerid' => 'Partnerid',
-            'gid' => 'Gid',
-            'gkey' => 'Gkey',
-            'status' => 'Status',
-            'rate' => 'Rate',
-            'totalmoney' => 'Totalmoney',
-            'lkey' => 'Lkey',
-            'pkey' => 'Pkey',
-            'auto_server' => 'Auto Server',
-            'create_time' => 'Create Time',
-            'up_time' => 'Up Time',
-            'url_web' => 'Url Web',
-            'url_pay' => 'Url Pay',
-            'url_fcm' => 'Url Fcm',
-            'url_bbs' => 'Url Bbs',
-            'url_kefu' => 'Url Kefu',
-            'url_client' => 'Url Client',
+            'partnerid' => '合作者ID',
+            'gid' => '本站游戏ID',
+            'gkey' => '混服游戏标识',
+            'status' => '启用状态',
+            'rate' => '分成比例',
+            'totalmoney' => '累计充值',
+            'lkey' => '登录Key',
+            'pkey' => '充值KEY',
+            'auto_server' => '区服自动添加',
+            'create_time' => '创建时间',
+            'up_time' => '更新时间',
+            'url_web' => '官网',
+            'url_pay' => '充值页面',
+            'url_fcm' => '防沉迷地址',
+            'url_bbs' => '论坛地址',
+            'url_kefu' => '客服中心',
+            'url_client' => '微端下载地址',
         ];
     }
+
 }

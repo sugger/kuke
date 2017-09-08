@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\models\PartnerGame */
 
-$this->title = 'Create Partner Game';
+$this->title = '为' .$partner->username .'添加游戏';
 $this->params['breadcrumbs'][] = ['label' => 'Partner Games', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -16,6 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'partner' =>$partner
     ]) ?>
 
 </div>

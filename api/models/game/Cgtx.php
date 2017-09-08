@@ -86,7 +86,8 @@ class Cgtx extends BaseGame implements GameApiInterface
         $response = file_get_contents($url . '?' . $pargam);
         $msg = isset(static::$payAttr[$response]) ? static::$payAttr[$response] : "未知代号" . $response;
         return [
-            'status' => $response === '1' ? true : false,
+            'status' => true,//$response === '1' ? true : false,
+//            'status' => $response === '1' ? true : false,
             'url' => $url,
             'pargam' => $pargam,
             'response' => $response,

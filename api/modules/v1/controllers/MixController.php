@@ -232,12 +232,6 @@ class MixController extends Controller
         if ($user->status == 0) return 15; /*用户已被锁定*/
 
 
-        /**验证orderid**/
-
-        /**验证money**/
-
-
-        /**创建数据库事物处理机制，推广账号减钱**/
 
         /**调用接口，获取游戏URL*/
         $gameconf = json_decode($game->game_conf, true);

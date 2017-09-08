@@ -5,8 +5,8 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\PartnerGame */
-
-$this->title = $model->id;
+$partner=$model->getPartnerUser();
+$this->title = $partner->username .'的游戏['. $model->gamename .']';
 $this->params['breadcrumbs'][] = ['label' => 'Partner Games', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -15,8 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('修改', ['Update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('添加区服', ['partner-server/create', 'pid' => $model->partnerid,'gid'=>$model->gid], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -30,14 +30,64 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'partnerid',
-            'gid',
+            [
+                'attribute'=>'gid',
+                'label'=>'游戏',
+                'value'=>function($model){
+                    return $model->gid . "[{$model->gamename}]";
+                }
+            ],
             'gkey',
-            'status',
-            'rate',
+            [
+                'attribute'=>'status',
+                'label'=>'状态',
+                'value'=>function($model){
+                    if ($model->status ==0 ){
+                        return '关闭';
+                    }elseif ($model->status == 1){
+                        return '正常';
+                    }elseif ($model->status == 2){
+                        return '仅登录';
+                    }
+                }
+            ],
+            [
+                'attribute'=>'rate',
+                'value'=>function($model)use ($partner){
+                    if ($model->rate ==0 ){
+                        return $partner?'默认比例：'. $partner->rate : '未填写';
+                    }else{
+                        return $model->rate;
+                    }
+                }
+            ],
             'totalmoney',
-            'lkey',
-            'pkey',
-            'auto_server',
+            [
+                'attribute'=>'lkey',
+                'value'=>function($model)use ($partner){
+                    if (!$model->lkey ){
+                        return $partner?'默认Key：'. $partner->lkey : '未填写';
+                    }else{
+                        return $model->lkey;
+                    }
+                }
+            ],
+            [
+                'attribute'=>'pkey',
+                'value'=>function($model)use ($partner){
+                    if (!$model->pkey  ){
+                        return $partner?'默认Key：'. $partner->pkey : '未填写';
+                    }else{
+                        return $model->pkey;
+                    }
+                }
+            ],
+            [
+                'attribute'=>'auto_server',
+                'value'=>function($model){
+                        return $model->auto_server ==1?'自动': '手动';
+                }
+            ],
             'create_time',
             'up_time',
             'url_web:url',

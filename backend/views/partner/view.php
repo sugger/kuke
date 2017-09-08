@@ -5,8 +5,9 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\PartnerUser */
-
-$this->title = $model->id;
+/* 加载页面级别资源 */
+\backend\assets\TablesAsset::register($this);
+$this->title = '合作者:'.$model->username ."的信息";
 $this->params['breadcrumbs'][] = ['label' => 'Partner Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -32,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'username',
             'parentid',
             'domain',
-            'password',
+//            'password',
             'type',
             'bankaccount',
             'realname',
@@ -53,10 +54,21 @@ $this->params['breadcrumbs'][] = $this->title;
             'tel',
             'email:email',
             'qq',
-            'api_ip:ntext',
+            'test_account',
+//            'api_ip:ntext',
+            'ip',
+            'api',
             'callback',
             'notify',
         ],
     ]) ?>
 
 </div>
+<!-- 定义数据块 -->
+<?php $this->beginBlock('test'); ?>
+jQuery(document).ready(function() {
+highlight_subnav('partner/index'); //子导航高亮
+});
+<?php $this->endBlock() ?>
+<!-- 将数据块 注入到视图中的某个位置 -->
+<?php $this->registerJs($this->blocks['test'], \yii\web\View::POS_END); ?>

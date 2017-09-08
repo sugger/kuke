@@ -26,4 +26,5 @@ class Server extends \common\models\Server
             ],
         ];
     }
+
 }

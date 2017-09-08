@@ -219,6 +219,9 @@ class ServerController extends BaseController
                     'from_social' => $user->from_social,
                 ], $gameapi['data']);//有数据则写入角色日志记录
                 return $gameapi['data'];
+            }else{
+                $db_role=GameRole::find()->where(["uid" => $user->uid ,'sid' => $server->sid ])->select('role,level,roleid')->asArray()->all();
+                return $db_role;
             }
         }
         return false;

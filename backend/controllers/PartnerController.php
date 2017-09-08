@@ -2,17 +2,17 @@
 
 namespace backend\controllers;
 
-use backend\models\PartnerUser;
 use Yii;
-use yii\data\ActiveDataProvider;
-use yii\filters\VerbFilter;
-use yii\web\Controller;
+use backend\models\PartnerUser;
+use backend\models\search\PartnerUserSearch;
+use backend\controllers\BaseController;
 use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
 
 /**
  * PartnerController implements the CRUD actions for PartnerUser model.
  */
-class PartnerController extends Controller
+class PartnerController extends BaseController
 {
     /**
      * @inheritdoc
@@ -35,11 +35,12 @@ class PartnerController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => PartnerUser::find(),
-        ]);
+        $this->setForward();
+        $searchModel = new PartnerUserSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -57,22 +58,6 @@ class PartnerController extends Controller
     }
 
     /**
-     * Finds the PartnerUser model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return PartnerUser the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = PartnerUser::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-
-    /**
      * Creates a new PartnerUser model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -80,10 +65,18 @@ class PartnerController extends Controller
     public function actionCreate()
     {
         $model = new PartnerUser();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $model->scenario='create';
+        $partnerData=Yii::$app->request->post();
+        if ($partnerData['PartnerUser']['passowrd']){
+            $partnerData['PartnerUser']['passowrd']=Yii::$app->security->generatePasswordHash($partnerData['PartnerUser']['passowrd']);
+        }
+        $partnerData['PartnerUser']['register_time']==time();
+        if ($model->load($partnerData) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            $model->loadDefaultValues();
+            $model->lkey= strtoupper(md5(uniqid())) ;
+            $model->pkey=  strtoupper(md5(uniqid()));
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -99,8 +92,11 @@ class PartnerController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $partnerData=Yii::$app->request->post();
+        if ($partnerData['PartnerUser']['passowrd']){
+            $partnerData['PartnerUser']['passowrd']=Yii::$app->security->generatePasswordHash($partnerData['PartnerUser']['passowrd']);
+        }
+        if ($model->load($partnerData) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -117,8 +113,47 @@ class PartnerController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        //$this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    /**
+     * Finds the PartnerUser model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return PartnerUser the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = PartnerUser::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+    public function actionDisable(){
+        return $this->upStatus(0);
+    }
+    public function actionEnable(){
+        return $this->upStatus(1);
+    }
+    private function upStatus($status){
+        $ids = Yii::$app->request->isPost?
+            Yii::$app->request->post('id'):
+            array_unique((array)explode(',',Yii::$app->request->get('id')));
+        foreach ($ids as $k=>$v){
+            $ids[$k]=(int)$v;
+        }
+        if ( empty($ids) ) {
+            $this->error('请选择要操作的数据!');
+        }
+        $ids=implode(',',$ids);
+        $_where = 'id in('.$ids.')';
+
+        return  PartnerUser::updateAll(['status'=>$status],$_where)?
+            $this->success('更改成功', $this->getForward()):
+            $this->error('更改失败！');
     }
 }

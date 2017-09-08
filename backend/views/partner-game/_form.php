@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
+use common\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $model backend\models\PartnerGame */
 /* @var $form yii\widgets\ActiveForm */
@@ -12,27 +12,17 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'partnerid')->textInput() ?>
-
-    <?= $form->field($model, 'gid')->textInput() ?>
-
     <?= $form->field($model, 'gkey')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
+    <?= $form->field($model, 'status')->dropDownList([1=>'启用',0=>'禁用' ,2=>'仅登录']) ?>
+
+    <?= $form->field($model, 'auto_server')->dropDownList([0=>'手动',1=>'自动',2=>'部分停服']) ?>
 
     <?= $form->field($model, 'rate')->textInput() ?>
-
-    <?= $form->field($model, 'totalmoney')->textInput() ?>
 
     <?= $form->field($model, 'lkey')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'pkey')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'auto_server')->textInput() ?>
-
-    <?= $form->field($model, 'create_time')->textInput() ?>
-
-    <?= $form->field($model, 'up_time')->textInput() ?>
 
     <?= $form->field($model, 'url_web')->textInput(['maxlength' => true]) ?>
 

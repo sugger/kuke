@@ -2,7 +2,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
+use backend\models\PartnerServer;
+use backend\models\Server;
+use common\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $model backend\models\PartnerServer */
 /* @var $form yii\widgets\ActiveForm */
@@ -12,15 +14,34 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'sid')->textInput() ?>
+
+    <?php
+    if($model->isNewRecord){
+        $where="gid = {$game->id}";
+        $sids=$partner->Sids($game->id);
+        if ($sids) $where .= " and sid not in(".implode(',',$sids).")";
+        echo $form->field($model, 'sid')->dropDownList(
+            ArrayHelper::map(
+                Server::find()->where($where)->orderBy('sid desc')->select('sid,servername')->asArray()->all(),
+                'sid',
+                'servername'
+            )
+        );
+    }
+    ?>
 
     <?= $form->field($model, 'pserverid')->textInput() ?>
 
-    <?= $form->field($model, 'gid')->textInput() ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
+    <?= $form->field($model, 'status')->dropDownList(
+        [
+            PartnerServer::STATUS_ACTIVE=>'正常',
+            PartnerServer::STATUS_DISABLE=>'冻结',
+            PartnerServer::STATUS_ONLY_LOGIN=>'仅登录',
 
-    <?= $form->field($model, 'pid')->textInput() ?>
+        ]
+    ) ?>
+
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

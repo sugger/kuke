@@ -8,7 +8,10 @@
 
 namespace api\modules\v1\controllers;
 
+use api\models\Game;
+use api\models\GameRole;
 use api\models\Order;
+use api\models\Server;
 use api\models\User;
 use Yii;
 use yii\base\ErrorException;
@@ -17,21 +20,92 @@ use yii\web\HttpException;
 
 class PayController extends Controller
 {
+    public $enableCsrfValidation=false;
     static $message=[
         200 => 'OK',
     ];
+
     /**
      * 统一下单地址
      */
     public function actionUnifiedorder(){
-        try{
+            if (! Yii::$app->request->isPost) return json_encode(['status'=>0,'msg'=>'角色名查询失败，请更新角色信息后重试']);
+            $ordermodel=new Order();
+            $request=Yii::$app->request;
+            $postData=$request->post();
+            $postKey=['order_sn','username','money','gameid','sid','rolename','rebate_id','pay_type','pay_source'];
+            $tmp=[];
+            /**去除多余数据**/
+            foreach ($postData as $key =>$value ) {
+                if (in_array($key,$postKey)){
+                    $tmp[$key]= htmlspecialchars(trim($value));
+                }
+            }
+            $postData=$tmp;
+            unset($tmp);
+            /**验证订单号是否可以使用**/
+            if (!$postData['order_sn']||!$postData['username']||!$postData['money']||!$postData['pay_type'])
+                return json_encode(['status'=>0,'msg'=>'参数不全']);
+            $order=Order::findOne(['order_sn'=>$postData['order_sn']]);
 
-            if (! Yii::$app->request->isPost) throw new HttpException(200);
+            if (!empty($order) && $order->pay_status == Order::STATUS_PAY_YES )
+                return json_encode(['status'=>0,'msg'=>'该订单已被使用']);
+            if ($order)
+                return json_encode(['status'=>0,'msg'=>'已经下单']);
+            /**验证充值用户**/
+            $user=User::findByUsername($postData['username']);
+            if (!$user ||  $user->status == User::STATUS_DELETED ) //用户不存在或者已被禁用
+                return json_encode(['status'=>0,'msg'=>'用户不存在或者已被禁用']);
+            $postData['uid']=$user->uid;
+            /**验证代金券 并计算应付金额 到账金额**/
+            $postData['payables']=$postData['money'];//代金券预留 应付款，和到账金额默认成订单金额
+            $postData['game_money']=$postData['money'];//代金券预留 应付款，和到账金额默认成订单金额
+            /**如果是充值到游戏 则验证充值游戏区服和角色的正确性 并写入角色名和充值付款标题**/
 
-        }catch (HttpException $e){
-            return ['Status'=>$e->statusCode,'Message'=>self::$message[$e->statusCode]];
-        }
+            if ( !in_array($postData['pay_type'],['PlatCoin']) ){
+                if (!$postData['gameid'] || !$postData['sid']) return json_encode(['status'=>0,'msg'=>'游戏和区服ID不能为空']);
+                $game=Game::findOne(['id'=>$postData['gameid']]);
+                if (!$game)
+                    return json_encode(['status'=>0,'msg'=>'游戏不存在']);
+                if ($game->isopen != Game::OPEN_YES)
+                    return json_encode(['status'=>0,'msg'=>'游戏已关闭']);
+                $server=Server::findOne(['sid'=>$postData['sid']]);
+                if (!$server)
+                    return json_encode(['status'=>0,'msg'=>'游戏区服不存在']);
+                if ($server->isstop == Server::STOP_YES )
+                    return json_encode(['status'=>0,'msg'=>'游戏区服已关闭']);
+                $postData['title']= $game->name.'-'.$server->servername  ;
+                $role=GameRole::findOne(['uid'=>$user->uid,'gid'=>$game->id,'sid'=>$server->sid,'role'=>$postData['rolename']]);
+                if (!$role) return json_encode(['status'=>0,'msg'=>'角色名查询失败，请更新角色信息后重试']);
+            }
 
+
+            $postData['create_time']=time();
+            $postData['channel']=$user->tuid;
+            $ordermodel->loadDefaultValues();
+            /*加载并验证**/
+            if(!$ordermodel->load(['Order'=>$postData]))
+                return json_encode(['status'=>0,'msg'=>'数据载入失败！']);
+            if (!$ordermodel->writepaytype() )
+                return json_encode(['status'=>0,'msg'=>'支付渠道更新失败，请稍后再试！']);
+            if ( $ordermodel ->save()){
+
+                return json_encode(['status'=>200,'msg'=>'下单成功，请及时付款','data'=>
+                    [
+                        'uid'=>$ordermodel->uid,
+                        'order_sn'=>$ordermodel->order_sn,
+                        'username'=>$ordermodel->username,
+                        'money'=>$ordermodel->money,
+                        'payables'=>$ordermodel->money,
+                        'rolename'=>$ordermodel->rolename,
+                        'productName'=>$ordermodel->title,
+                        'create_time'=>$ordermodel->create_time,
+                        'pay_status'=>$ordermodel->pay_status==Order::STATUS_PAY_YES?'已付款':'等待付款'
+                    ]
+                ]);
+            }else{
+                return json_encode(['status'=>0,'msg'=>'数据库写入失败','data'=>$ordermodel->getErrors()]);
+            }
 
     }
 
@@ -39,7 +113,7 @@ class PayController extends Controller
      * 对外付款接口
      */
     public function actionPay(){
-
+        \api\models\pay\Alipay::Pay();
     }
 
     /**
@@ -49,15 +123,23 @@ class PayController extends Controller
     {
         //todo 验证通知真实性
         //todo 为真记录日志
-
+        $payPargam=Yii::$app->params['payType'];
+        $secure=$payPargam[$type]['apiClass'];
+        $check=$secure::check($_POST);
+        if ($check){
+            $successtime = time();
+            $order = Order::findOne(['order_sn' => $check['order_sn']]);
+            $order->pay_time = $successtime;
+            $order->pay_sn = $check['pay_sn'];
+            $order->really_money = $check['really_money'];
+            $order->pay_status = Order::STATUS_PAY_YES;
+            $after = $this->BeginPay($order, $order->really_money, $successtime);
+            var_dump($after);
+        }
+        $pay_sn='135555111_123';
         $orderid = '135555111';
         $really_money = '9.8';
-        $successtime = time();
-        $order = Order::findOne(['order_sn' => $orderid]);
-        $order->pay_time = $successtime;
-        $order->pay_status = Order::STATUS_PAY_YES;
-        $after = $this->BeginPay($order, $really_money, $successtime);
-        var_dump($after);
+
     }
 
     /**
@@ -120,20 +202,6 @@ class PayController extends Controller
     }
 
 
-    /**
-     * 付款日志
-     */
-    protected function PayLog(){
 
-    }
-
-    /**
-     * @param $order object
-     * @param $classname object
-     */
-
-    protected function GamePay( $order , $classname){
-
-    }
 
 }

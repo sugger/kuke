@@ -2,17 +2,19 @@
 
 namespace backend\controllers;
 
-use backend\models\PartnerServer;
+use backend\models\Game;
+use backend\models\PartnerUser;
 use Yii;
-use yii\data\ActiveDataProvider;
-use yii\filters\VerbFilter;
-use yii\web\Controller;
+use backend\models\PartnerServer;
+use backend\models\search\PartnerServerSearch;
+use backend\controllers\BaseController;
 use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
 
 /**
  * PartnerServerController implements the CRUD actions for PartnerServer model.
  */
-class PartnerServerController extends Controller
+class PartnerServerController extends BaseController
 {
     /**
      * @inheritdoc
@@ -35,11 +37,11 @@ class PartnerServerController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => PartnerServer::find(),
-        ]);
+        $searchModel = new PartnerServerSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -57,35 +59,31 @@ class PartnerServerController extends Controller
     }
 
     /**
-     * Finds the PartnerServer model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return PartnerServer the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = PartnerServer::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-
-    /**
      * Creates a new PartnerServer model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($pid,$gid)
     {
-        $model = new PartnerServer();
+        $partner=PartnerUser::findOne($pid);
+        if (!$partner || $partner->status==PartnerUser::STATUS_DISABLE)
+            return $this->error('账户异常');
+        $game=Game::findOne($gid);
+        if (!$game)
+            return $this->error('添加的游戏不存在');
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $model = new PartnerServer();
+        $data=Yii::$app->request->post();
+        $data['PartnerServer']['gid']=$gid;
+        $data['PartnerServer']['pid']=$pid;
+        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            $model->loadDefaultValues();
             return $this->render('create', [
                 'model' => $model,
+                'partner' => $partner,
+                'game' => $game,
             ]);
         }
     }
@@ -99,12 +97,16 @@ class PartnerServerController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $partner=PartnerUser::findOne($model->pid);
+        $game=Game::findOne($model->gid);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'partner' => $partner,
+                'game' => $game,
             ]);
         }
     }
@@ -120,5 +122,21 @@ class PartnerServerController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    /**
+     * Finds the PartnerServer model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return PartnerServer the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = PartnerServer::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 }

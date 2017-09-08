@@ -5,9 +5,10 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\PartnerUser */
-
-$this->title = 'Create Partner User';
-$this->params['breadcrumbs'][] = ['label' => 'Partner Users', 'url' => ['index']];
+/* 加载页面级别资源 */
+\backend\assets\TablesAsset::register($this);
+$this->title = '创建合作账户';
+$this->params['breadcrumbs'][] = ['label' => '填写账户信息', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="partner-user-create">
@@ -19,3 +20,11 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
 </div>
+    <!-- 定义数据块 -->
+<?php $this->beginBlock('test'); ?>
+    jQuery(document).ready(function() {
+    highlight_subnav('partner/index'); //子导航高亮
+    });
+<?php $this->endBlock() ?>
+    <!-- 将数据块 注入到视图中的某个位置 -->
+<?php $this->registerJs($this->blocks['test'], \yii\web\View::POS_END); ?>
