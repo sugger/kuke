@@ -21,8 +21,7 @@ FROM `mygame_member` as a JOIN `mygame_member_extend_info` as b ON a.uid=b.uid W
 
 class User extends \common\models\User implements IdentityInterface, RateLimitInterface
 {
-    const STATUS_DELETED = 0;
-    const STATUS_ACTIVE = 1;
+
 
     public static function findByUserPhone($mobile)
     {

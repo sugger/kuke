@@ -66,7 +66,7 @@ class Cgtx extends BaseGame implements GameApiInterface
     public static function GamePay($info, $order)
     {
 
-        if ($order->pay_status != 1 or $order->pay_time = 0) return false;
+        if ($order->pay_status != 1 or $order->pay_time == 0) return false;
         /**调用接口，获取游戏URL*/
         $url = str_replace('{platform}', self::PLATFORM, $info['url']);
         $timestamp = time();
@@ -86,8 +86,8 @@ class Cgtx extends BaseGame implements GameApiInterface
         $response = file_get_contents($url . '?' . $pargam);
         $msg = isset(static::$payAttr[$response]) ? static::$payAttr[$response] : "未知代号" . $response;
         return [
-            'status' => true,//$response === '1' ? true : false,
-//            'status' => $response === '1' ? true : false,
+//            'status' => true,//$response === '1' ? true : false,
+            'status' => $response === '1' ? true : false,
             'url' => $url,
             'pargam' => $pargam,
             'response' => $response,
@@ -124,16 +124,18 @@ class Cgtx extends BaseGame implements GameApiInterface
         $content = file_get_contents($url);
         $return = json_decode($content, true);
         $role = [];
-        foreach ($return as $k => $value) {
-            $role[] = [
-                'role' => $value['nickname'],
-                'roleid' => $value['roleId'],
-                'level' => $value['grade'],
-                'profession' => $value['profession'],
-                'createTime' => strtotime($value['createTime']),
-                'sex' => $value['sex'],
-                'fightvalue' => $value['fightvalue'],
-            ];
+        if (is_array($return)){
+            foreach ($return as $k => $value) {
+                $role[] = [
+                    'role' => $value['nickname'],
+                    'roleid' => $value['roleId'],
+                    'level' => $value['grade'],
+                    'profession' => $value['profession'],
+                    'createTime' => strtotime($value['createTime']),
+                    'sex' => $value['sex'],
+                    'fightvalue' => $value['fightvalue'],
+                ];
+            }
         }
         return ['status' => $role ? 1 : 0, 'roleAttr' => static::$roleAttr, 'data' => $role];
     }

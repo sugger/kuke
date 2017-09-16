@@ -1,34 +1,34 @@
 yii.gii = (function ($) {
 
     var $clipboardContainer = $("#clipboard-container"),
-        valueToCopy = '',
+    valueToCopy = '',
 
-        onKeydown = function (e) {
-            var $target;
-            $target = $(e.target);
+    onKeydown = function(e) {
+        var $target;
+        $target = $(e.target);
 
-            if ($target.is("input:visible, textarea:visible")) {
-                return;
-            }
+        if ($target.is("input:visible, textarea:visible")) {
+            return;
+        }
 
-            if (typeof window.getSelection === "function" && window.getSelection().toString()) {
-                return;
-            }
+        if (typeof window.getSelection === "function" && window.getSelection().toString()) {
+            return;
+        }
 
-            if (document.selection != null && document.selection.createRange().text) {
-                return;
-            }
+        if (document.selection != null && document.selection.createRange().text) {
+            return;
+        }
 
-            $clipboardContainer.empty().show();
-            return $("<textarea id='clipboard'></textarea>").val(valueToCopy).appendTo($clipboardContainer).focus().select();
-        },
+        $clipboardContainer.empty().show();
+        return $("<textarea id='clipboard'></textarea>").val(valueToCopy).appendTo($clipboardContainer).focus().select();
+    },
 
-        onKeyup = function (e) {
-            if ($(e.target).is("#clipboard")) {
-                $("#clipboard-container").empty().hide();
-            }
-            return true;
-        };
+    onKeyup = function(e) {
+        if ($(e.target).is("#clipboard")) {
+            $("#clipboard-container").empty().hide();
+        }
+        return true;
+    };
 
     var initHintBlocks = function () {
         $('.hint-block').each(function () {
@@ -63,10 +63,10 @@ yii.gii = (function ($) {
         });
     };
 
-    var fillModal = function (data) {
+    var fillModal = function(data) {
         var $modal = $('#preview-modal'),
-            $link = $(this),
-            $modalBody = $modal.find('.modal-body');
+         $link = $(this),
+         $modalBody = $modal.find('.modal-body');
         if (!$link.hasClass('modal-refresh')) {
             var filesSelector = 'a.' + $modal.data('action');
             var $files = $(filesSelector);
@@ -164,7 +164,7 @@ yii.gii = (function ($) {
         });
     };
 
-    $(document).on("keydown", function (e) {
+    $(document).on("keydown", function(e) {
         if (valueToCopy && (e.ctrlKey || e.metaKey) && (e.which === 67)) {
             return onKeydown(e);
         }
@@ -211,9 +211,9 @@ yii.gii = (function ($) {
                 }
                 if ($('#generator-modelclass').val() === '' && tableName && tableName.indexOf('*') === -1) {
                     var modelClass = '';
-                    $.each(tableName.split('_'), function () {
-                        if (this.length > 0)
-                            modelClass += this.substring(0, 1).toUpperCase() + this.substring(1);
+                    $.each(tableName.split('_'), function() {
+                        if(this.length>0)
+                            modelClass+=this.substring(0,1).toUpperCase()+this.substring(1);
                     });
                     $('#generator-modelclass').val(modelClass).blur();
                 }

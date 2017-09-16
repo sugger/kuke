@@ -14,6 +14,14 @@ class ServerSearch extends \backend\models\Server
 {
     public $from_date; // 搜索开始时间
     public $to_date; // 搜索结束时间
+
+    public function rules()
+    {
+        return [
+            [['sid', 'gid', 'player_num', 'start_time', 'add_time', 'up_time', 'is_display', 'status', 'server_img', 'isstop', 'is_del'], 'integer'],
+            [['servername', 'stop_notice', 'content', 'serverid', 'cp_gameid', 'cp_sid'], 'safe'],
+        ];
+    }
     /**
      * @inheritdoc
      */
@@ -58,7 +66,6 @@ class ServerSearch extends \backend\models\Server
         ]);
 
         $query->andFilterWhere(['like', 'servername', $this->servername]);
-        if ($params['ServerSearch'][''])
         /* 条件搜索 */
         /* 时间搜索 */
         if(isset($params['OrderSearch']['from_date']) && isset($params['OrderSearch']['to_date'])){

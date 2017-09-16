@@ -11,8 +11,9 @@ return [
         'path' => Yii::getAlias('@backend/web/image/'),
     ],
     'payType'=>[
-        'alipay'=>['id'=>1,'apiClass'=>'\api\models\pay\Alipay','name'=>'支付宝扫码','rate'=>100,'type'=>'webApi'],
-        'wxpay'=>['id'=>2,'apiClass'=>'','name'=>'网银扫码','rate'=>100,'type'=>'webApi'],
-        'bank'=>['id'=>3,'apiClass'=>'','name'=>'网银支付','rate'=>100,'type'=>'webServer'],
+        'alipay'=>['id'=>'alipay','apiClass'=>'\api\models\pay\Wftali','name'=>'支付宝扫码','rate'=>100,'type'=>'webApi'],
+        'wxpay'=>['id'=>'wxpay','apiClass'=>'\api\models\pay\Wftwx','name'=>'微信扫码','rate'=>100,'type'=>'webApi'],
+        //'wxpay'=>['id'=>'wxpay','apiClass'=>'\api\models\pay\Wftali','name'=>'微信扫码','rate'=>100,'type'=>'javaScript'],
+        //'bank'=>['id'=>'bank','apiClass'=>'\api\models\pay\Alipay','name'=>'网银支付','rate'=>100,'type'=>'webServer'],
     ]
 ];

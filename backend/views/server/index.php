@@ -11,14 +11,14 @@ $this->params['title_sub'] = '';  // 在\yii\base\View中有$params这个可以�
 $columns=[
     [
         'class'=>\common\core\CheckboxColumn::className(),
-        'name'  => 'id',
+        'name'  => 'sid',
         'options' => ['width' => '20px;'],
         'checkboxOptions' => function ($model, $key, $index, $column) {
             return ['value' => $key,'label'=>'<span></span>','labelOptions'=>['class' =>'mt-checkbox mt-checkbox-outline','style'=>'padding-left:19px;']];
         }
     ], [
         'options' => ['width' => '150px;'],
-        'attribute' => 'id',
+        'attribute' => 'sid',
     ], [
         'options' => ['width' => '150px;'],
         'attribute' => 'gid',

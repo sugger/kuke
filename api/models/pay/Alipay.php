@@ -36,6 +36,11 @@ class Alipay implements PayInterface
         require_once self::BASE_DIR.'/pagepay/service/AlipayTradeService.php';
         require_once self::BASE_DIR.'/pagepay/buildermodel/AlipayTradePagePayContentBuilder.php';
     }
+
+    /**
+     * @param null $order
+     * return from表单 json数据 javascript代码
+     */
     public static function Pay($order=null)
     {
         require_once self::BASE_DIR . '/config.php';
@@ -49,9 +54,9 @@ class Alipay implements PayInterface
 
         /**
          * pagePay 电脑网站支付请求
-         * @param $builder 业务参数，使用buildmodel中的对象生成。
-         * @param $return_url 同步跳转地址，公网可以访问
-         * @param $notify_url 异步通知地址，公网可以访问
+         * @param $builder ;业务参数，使用buildmodel中的对象生成。
+         * @param $return_url ;同步跳转地址，公网可以访问
+         * @param $notify_url ;异步通知地址，公网可以访问
          * @return $response 支付宝返回的信息
          */
         $return_url=$notify_url='http://www.kukewan.com';
@@ -203,11 +208,11 @@ class Alipay implements PayInterface
         // TODO: Implement check() method.
     }
     public static function _model($model){
-        require_once self::BASE_DIR . "/buildermodel/{$model}.php";
+        require_once self::BASE_DIR . "/pagepay/buildermodel/{$model}.php";
         return new $model();
     }
     public static function Aop(){
         require_once self::BASE_DIR . '/config.php';
-        return new AlipayTradeService($config);
+        return new \AlipayTradeService($config);
     }
 }

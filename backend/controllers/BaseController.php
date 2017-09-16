@@ -25,10 +25,10 @@ class BaseController extends Controller
      */
     public function init(){
         /* 判断是否登录 */
-        /*if (\Yii::$app->user->getIsGuest()) {
-            $this->redirect(Url::toRoute(['/login/login']));
+        if (\Yii::$app->user->getIsGuest()) {
+            $this->redirect(Url::toRoute(['/public/login']));
             Yii::$app->end();
-        }*/
+        }
 
         /* 解析数据库配置，解析后存放在Yii::$app->params['web']中 */
         Yii::$app->params['web'] = Config::lists();

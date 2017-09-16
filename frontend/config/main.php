@@ -11,6 +11,13 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    'modules' => [
+        'mix' => [
+            'class' => 'api\modules\v1\Modules',
+            'defaultRoute' => 'Public/login'
+//            'basePath'=>'@api/modules/v1'
+        ],
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',

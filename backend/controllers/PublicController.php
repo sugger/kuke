@@ -13,7 +13,8 @@ use yii\helpers\ArrayHelper;
 use common\models\Region;
 use kartik\depdrop\DepDropAction;
 use yii\helpers\Url;
-class PublicController extends BaseController
+use common\core\Controller;
+class PublicController extends Controller
 {
     public $layout = false;
 

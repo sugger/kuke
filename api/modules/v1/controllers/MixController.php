@@ -230,8 +230,15 @@ class MixController extends Controller
         /**获取玩家对象实例，没有玩家则从酷客玩获取，酷客玩没有则创建用户**/
         if (empty($user) || !is_object($user)) return 14; //获取用户信息失败
         if ($user->status == 0) return 15; /*用户已被锁定*/
-
-
+        Yii::$app->session->set('mixuser',[
+            'tuid'=>$partner->id,
+            'username'=>$user->username,
+            'uid'=>$user->id,
+            'gid'=>$game->id,
+            'sid'=>$server->sid,
+            'serverid'=>$server->serverid,
+            'uptime'=>time()
+        ]);
 
         /**调用接口，获取游戏URL*/
         $gameconf = json_decode($game->game_conf, true);
@@ -249,8 +256,12 @@ class MixController extends Controller
         $gameapi = ServerController::GameUrl($info, ucfirst($game->game_api));
         if ($gameapi['status'] != 1) return 13;
         /**接口内部错误**/
-
-
+        static::$gamePage=[
+            'url'=>$gameapi['url'],
+            'client'=>'',
+            'swf'=>'',
+        ];
+        return 200;
 
 
     }

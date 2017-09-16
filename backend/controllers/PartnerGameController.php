@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\Game;
 use backend\models\PartnerUser;
 use Yii;
 use backend\models\PartnerGame;
@@ -94,12 +95,14 @@ class PartnerGameController extends BaseController
         $model = $this->findModel($id);
         $partner=PartnerUser::findOne($model->partnerid);
         if (!$partner) return $this->error('混服合作者不存在','index');
+        $game=Game::findOne($model->gid);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
-
+                'partner' =>$partner,
+                'game'=>$game
             ]);
         }
     }

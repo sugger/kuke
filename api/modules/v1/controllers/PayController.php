@@ -113,34 +113,52 @@ class PayController extends Controller
      * 对外付款接口
      */
     public function actionPay(){
-        \api\models\pay\Alipay::Pay();
+
     }
 
     /**
-     * 通知接口
+     * 统一付款API
+     * @param $order \api\models\Order;
+     * @param $payPatams
      */
-    public function actionNotify($type)
-    {
-        //todo 验证通知真实性
-        //todo 为真记录日志
-        $payPargam=Yii::$app->params['payType'];
-        $secure=$payPargam[$type]['apiClass'];
-        $check=$secure::check($_POST);
-        if ($check){
-            $successtime = time();
-            $order = Order::findOne(['order_sn' => $check['order_sn']]);
-            $order->pay_time = $successtime;
-            $order->pay_sn = $check['pay_sn'];
-            $order->really_money = $check['really_money'];
-            $order->pay_status = Order::STATUS_PAY_YES;
-            $after = $this->BeginPay($order, $order->really_money, $successtime);
-            var_dump($after);
+    public static function _PayApi($order,$payPatams=null){
+        if (!$payPatams)
+            $payPatams=Yii::$app->params['payType'][$order->pay_type];
+        if (!$payPatams['apiClass'] || !class_exists($payPatams['apiClass']))
+            return 9;
+        $res=$payPatams['apiClass']::Pay($order);
+        if ($res['status']!==200)
+            PublicController::Log('统一付款'.$order->pay_type ,var_export($res) ,'_pay_api_err' );
+        switch ($payPatams['type']){
+            case 'webApi':
+                /**返回二维码地址接口**/
+                $return=json_encode($res);
+                break;
+            case 'javaScript':
+                /**JS脚本**/
+                $return=json_encode($res);
+                break;
+            case 'webServer':
+                /**POST Input数据**/
+                $return=self::render('post',$res);
+                break;
+            case 'html':
+                /**POST Input数据**/
+                $return=$res['html'];
+                break;
+            default:
+                $return=$res['data'];
+                break;
         }
-        $pay_sn='135555111_123';
-        $orderid = '135555111';
-        $really_money = '9.8';
-
+        /**
+         * webApi ;JSON数据 200状态码成功 'code_img_url','code_url'
+         * javaScript JSON数据 200状态码成功 'data':'<script>·········</script>'
+         * webServer html页面提交数据 API接口文件 返回的数据在view渲染  其中要求数据包括 url data
+         * html html页面提交数据 API接口文件 返回的数据为html页面  其中要求数据包括 html
+         */
+        return $return;
     }
+
 
     /**
      * @param $order \api\models\Order

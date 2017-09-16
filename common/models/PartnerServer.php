@@ -33,6 +33,7 @@ class PartnerServer extends \common\core\BaseActiveRecord
         return [
             [['sid', 'pserverid', 'gid', 'status', 'pid'], 'required'],
             [['sid', 'pserverid', 'gid', 'status', 'pid'], 'integer'],
+            [['ctime'], 'string'],
         ];
     }
 
@@ -48,6 +49,7 @@ class PartnerServer extends \common\core\BaseActiveRecord
             'gid' => '游戏',
             'status' => '状态',
             'pid' => '所属混服',
+            'ctime'=>'创建时间'
         ];
     }
 }

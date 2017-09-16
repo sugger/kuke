@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'gid',
                 'value' => function($model){
                     $game=$model->getGame();
-                    return "[{$game->id}]{$game->name}" ;
+                    return "[{$model->gid}]{$game->name}" ;
                 }
             ],
             [

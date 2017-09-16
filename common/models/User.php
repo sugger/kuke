@@ -26,6 +26,9 @@ use Yii;
  */
 class User extends \common\core\BaseActiveRecord
 {
+    const STATUS_DELETED = 0;
+    const STATUS_ACTIVE = 1;
+    const HF_USER = 'hf';
     /**
      * @inheritdoc
      */

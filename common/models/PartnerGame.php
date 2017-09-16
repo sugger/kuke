@@ -31,7 +31,7 @@ class PartnerGame extends \common\core\BaseActiveRecord
     const STATUS_LOGIN = 2;
     const AUTO_DISABLE = 0;
     const AUTO_ACTIVE = 1;
-    const AUTO_STOP_NEW_SERVER = 1;
+    const AUTO_STOP_NEW_SERVER = 2;
 
     /**
      * @inheritdoc

@@ -2,29 +2,31 @@
 
 namespace backend\models\search;
 
+use backend\models\PartnerUser;
 use backend\models\User;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use backend\models\Order;
-
 /**
  * OrderSearch represents the model behind the search form about `backend\models\Order`.
  */
 class OrderSearch extends Order
 {
-
-    public $from_date; // 搜索开始时间
-    public $to_date; // 搜索结束时间
-
+    public $from_date,$to_date;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['order_id', 'uid', 'aid', 'start_time', 'end_time', 'num', 'pay_status', 'pay_time', 'pay_type', 'pay_source', 'create_time', 'status'], 'integer'],
-            [['order_sn', 'type', 'title'], 'safe'],
+            [['order_id', 'uid', 'rebate_id', 'gameid', 'sid', 'create_time', 'pay_time', 'pay_status', 'status', 'is_del'], 'integer'],
+            [['order_sn', 'pay_sn', 'username', 'type', 'title', 'channel', 'rolename', 'pay_type', 'pay_source', 'remark'], 'safe'],
+            [['money', 'payables', 'really_money', 'game_money'], 'number'],
+            [['from_date','to_date'],'default','value'=>function ($model, $attribute){
+                return date('Y-m-d', strtotime($attribute === 'from_date' ? 'last weeks' :'now'));
+            }],
+            [['from_date','to_date'],'safe'],
         ];
     }
 
@@ -46,60 +48,62 @@ class OrderSearch extends Order
      */
     public function search($params)
     {
-        //$params = $params ? : Yii::$app->request->getQueryParams();
-        
-        $query = Order::find()->orderBy('order_id DESC')->asArray();
+
+        $query = Order::find();
+
+        // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => [
-                'pageSize' => 2,
-            ],
         ]);
 
-        $this->load($params);
 
+        $this->load($params);
+        //按渠道搜索
+        if (!empty($this->channel)&&!is_numeric($this->channel)){
+            $channel=PartnerUser::getQdIdLikeUsername($this->channel) ;
+            if ($channel){
+                $query->andFilterWhere(['in', 'channel', implode(',',$channel)]);
+            }
+        }else{
+            $query->andFilterWhere([ 'channel'=>$this->channel]);
+        }
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
         }
 
-        /* 基本搜索 */
+        // grid filtering conditions
+        if (empty($this->uid)&&$this->username && is_numeric($this->username)){
+           $this->uid = $this->username;
+        }else{
+            $query->andFilterWhere(['like', 'username', $this->username]);
+        }
+
         $query->andFilterWhere([
-            'pay_status' => $this->pay_status,
+            'order_id' => $this->order_id,
             'uid' => $this->uid,
-            'pay_type' => $this->pay_type,
+            'money' => $this->money,
+            'rebate_id' => $this->rebate_id,
+            'payables' => $this->payables,
+            'really_money' => $this->really_money,
+            'game_money' => $this->game_money,
+            'gameid' => $this->gameid,
+            'sid' => $this->sid,
+            'pay_status' => $this->pay_status,
+            'status' => $this->status,
             'pay_source' => $this->pay_source,
+            'pay_type' => $this->pay_type,
+            'type' => $this->type,
+            'is_del' => 0,
         ]);
+        $query->andFilterWhere(['between','create_time',strtotime($this->from_date),strtotime($this->to_date . ' 23:59:59')]);
+        $query->andFilterWhere(['like', 'order_sn', $this->order_sn])
+            ->andFilterWhere(['like', 'pay_sn', $this->pay_sn])
+            ->andFilterWhere(['like', 'rolename', $this->rolename]);
 
-        /* 某用户推荐的人的订单 */
-        if (isset($params['tuid']) && $params['tuid']) {
-            $uids = User::find()->select('uid')->where(['tuid' => $params['tuid']])->asArray()->column();
-            $uids = $uids?$uids:-1;
-            $query->andFilterWhere(['in', 'uid', $uids]);
-            //var_dump($uids);exit;
-        }
-
-        /* 商品名 */
-        $query->andFilterWhere([
-            'like', 'title', $this->title,
-        ]);
-
-        /* 时间搜索 */
-        if(isset($params['OrderSearch']['from_date']) && isset($params['OrderSearch']['to_date'])){
-            $this->from_date = $params['OrderSearch']['from_date'];
-            $this->to_date = $params['OrderSearch']['to_date'];
-        }
-        if($this->from_date !='' && $this->to_date != '') {
-            $query->andFilterWhere(['between', 'create_time', strtotime($this->from_date), strtotime($this->to_date)]);
-        }
-        
-        /* 排序 */
-        $query->orderBy([
-            'order_id' => SORT_DESC,
-        ]);
-
+        $query->orderBy('order_id desc');
         return $dataProvider;
     }
 }

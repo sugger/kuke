@@ -1,6 +1,7 @@
 <?php
 
 namespace common\models;
+use common\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%partner_users}}".
@@ -94,7 +95,8 @@ class PartnerUsers extends \common\core\BaseActiveRecord
             [['available_money', 'money', 'rate', 'totalmoney'], 'number'],
             [['username', 'realname', 'lastlogin_ip', 'admin_username'], 'string', 'max' => 30],
             [['domain', 'bankaccount', 'email'], 'string', 'max' => 100],
-            [['password', 'number_id', 'pay_tag', 'tel', 'test_account'], 'string', 'max' => 50],
+            [['number_id', 'pay_tag', 'tel', 'test_account'], 'string', 'max' => 50],
+            [['password'], 'string', 'max' => 60],
             [['remark'], 'string', 'max' => 255],
             [['lkey', 'pkey'], 'string', 'max' => 32],
             [['qq'], 'string', 'max' => 20],
@@ -141,5 +143,8 @@ class PartnerUsers extends \common\core\BaseActiveRecord
             'callback' => '同步回调地址',
             'notify' => '异步回调地址',
         ];
+    }
+    public static function getQdIdLikeUsername($name){
+        return ArrayHelper::getColumn(self::find()->filterWhere(['like','username',$name])->select('id')->asArray()->all(),'id');
     }
 }
